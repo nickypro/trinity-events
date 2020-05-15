@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto&display=swap');
+@import "Animations";
+@import "colors";
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+@media screen and (max-height: 600px) {
+  *{font-size: 14px;}
+}
+
+body {    
+  background: #462a4d;
+}
+
+h1 {
+  position: relative;
+  font-family: 'Playfair Display', serif;
+  font-size: 3em;
+  display: inline-block;
+  margin: 3rem;
+
+  &::after{
+    content: '';
+    display: block;
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: -0.8rem;
+    height: 1px;
+    background-color: $textColor;
+  }
+}
+h2 {
+  font-weight: normal;
+}
+p,a {
+  font-family: 'Roboto', sans-serif;
+}
+a {
+  position: relative;
+  text-decoration: none;
+  color: $textColor;
+  &:hover{
+    color: $linkHover;
+  }
+}
+
+/* Content Devision (menu|focus) */
+.welcomeBox {
+  text-align: center;
+  position: fixed;
+  width: 100%;  
+  display: grid;
+  min-height: 100vh;
+  overflow: auto;
+  overflow-x: hidden;
+  transition: 1s;
+
+  grid-template-columns: 20rem 1fr; 
+  grid-template-rows: 100vh;
+
+  &::after {
+    content: "";
+    background: $boxGradient;
+    background-color: rgb(255, 204, 255);
+    background-image: url("../background.jpg");
+    background-position: center;
+    background-size: cover;
+    opacity: 0.17;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;   
+  }
+
+}
+
+/* Large part of Page */
+.pageFocus {
+  transition: 0.4s ease-out;
+  position: relative;
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
+/*Large Main Logo*/
+.mainLogo {
+  position: relative;
+  width: 80vmin;
+  max-width: 90%;
+  margin: auto;
+  margin-top: calc(50vh - 50vmin);
+
+  left: 0%;
+
+  animation-name: fadeToRight;
+  animation-direction: forwards;
+  animation-duration: 0.8s; 
+  animation-timing-function: ease-out;
+  font-family: sans-serif;
+}
+
+@keyframes fadeToRight {
+  0% {left: -8%;
+    opacity: 0;
+  }
+  100%{
+    left: 0%;
+    opacity: 1;
+  }
+}
+
+
+/* Display Cards */
+.card{
+  width: 95%;
+  box-sizing: border-box;
+  min-height: 80vh;
+  padding: 0rem 2rem 2rem;
+  margin: 1rem;
+  margin-top: 10vh;
+  border-radius: 0rem;
+  background-color: #f5f5f5;
+  position: relative;
+
+  transition: 1s;
+  animation: upFromBottom 0.2s ease-out;
+
+  @keyframes upFromBottom {
+    0% {
+      right: -80vw;
+    }
+    100% {
+      right: 0px;
+    }
+  }
+  p {
+    text-align: justify;
+  }
+  h1 {
+    text-transform:capitalize;
+  }
+}
+
+.button, .download {
+  display: inline-block;
+  text-align: center;
+  font-size: 1.85rem;
+  margin: 1rem 0px;
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: $mainLinkDark solid;
+  background-color: $mainLinkLight;
+  border-left: 0;
+  border-right: 0;
+  transition: background-color 0.2s ease-out;
+  color: $mainLinkDark;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover{
+    background-color: $mainLinkHover;
+    box-shadow: 0px 2px 3px rgba(black, 0.2);
+  }
+}
+
+.buttonRound {
+  border: none;
+  border-radius: 1em;
+}
+
+.modernButton {
+  border: none;
+  padding: 0.5rem 2rem;
+  font-size: 1.5rem;
+  border-radius: 0.5em;
+  background-color: transparent;
+  box-shadow: 0px 2px 3px rgba(black, 0.1);
+  background-color: rgba(white, 0.4);
+  &:hover {
+    background-color: white;
+  }
+}
+
+.committee h3 {
+  display: none;
+}
+
+.committee img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+}
+
+
+.wp-block-image {
+  display: inline-block;
+  clear: both;
+}
+
+/*meida queries*/
+@media screen and (max-width: 900px) {
+  .welcomeBox{
+    grid-template-rows: 4rem calc(100vh - 4rem) 0px;
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 2rem 0.7rem;
+    margin: 0.5rem;
+    margin-bottom: 3rem;
+    width: calc(100%-1rem);
+    grid-template-columns: 1fr;
+    h1 {
+      margin: 2rem 0.5rem;
+    }
+  }
+  
+}
+@media screen and (max-width: 350px){
+  .card {
+    width: 100%;
+    margin: 0px;
+  }
+
+}
+
+
+
+/**/
+.form {
+  display: flex; 
+  flex-direction: column;
+  input{
+    font-size: 1.5rem;
+    padding: 0.3rem;
+    margin-right: 0.3rem;
+    width: calc(100%-2rem);
+    max-width: 80%;
+  }
+  input[type="text"] {
+    box-shadow: 1px 2px 3px rgba(black, 0.1);
+    border: 1px solid rgba(white, 0.5);
+    border-radius: 0.5rem;
+    padding-left: 0.7rem;
+    &:hover, &:focus {
+      box-shadow: 1px 2px 3px rgba(black, 0.2);
+    }
+  }
+  .inputLabel {
+    display: flex;
+    width: 100%;
+    justify-content: stretch;
+    h2 { width: 30%}
+    input { width: 66%}
+  }
+}
+
+/* Bottom Text */
+.bottomText {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1rem;
+  
+  width: 90vw;
+  color: white;
+  padding: 0.3rem;
+
+  P {margin: 0.5rem;}
+
+  a {
+    color: white;
+    &:hover{
+      color: $menuLinkHover;
+    }
+  }
+}

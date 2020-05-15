@@ -1,0 +1,212 @@
+body {
+  margin: 0px;
+}
+
+.welcomeBox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: linear-gradient(60deg, #9CFC97, #cdff74);
+  width: 100%;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+.welcomeBox a {
+  font-family: sans-serif;
+}
+
+.welcomeBox h1 {
+  font-family: "Varela", sans-serif;
+  font-size: 3em;
+  letter-spacing: 0.1em;
+  color: #471147;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 1rem;
+}
+
+.mainLogo {
+  width: 66vw;
+  left: 3%;
+  position: relative;
+  -webkit-animation-name: fadeToRight;
+          animation-name: fadeToRight;
+  -webkit-animation-direction: forwards;
+          animation-direction: forwards;
+  -webkit-animation-duration: 0.8s;
+          animation-duration: 0.8s;
+  -webkit-animation-timing-function: ease-out;
+          animation-timing-function: ease-out;
+  font-family: sans-serif;
+}
+
+@-webkit-keyframes fadeToRight {
+  0% {
+    left: -3%;
+    opacity: 0;
+  }
+  100% {
+    left: 3%;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeToRight {
+  0% {
+    left: -3%;
+    opacity: 0;
+  }
+  100% {
+    left: 3%;
+    opacity: 1;
+  }
+}
+
+.mainButtonsBox {
+  float: right;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-item-align: stretch;
+      align-self: stretch;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.mainButton {
+  padding: 0.7rem 1rem;
+  text-align: center;
+  font-size: 1.6rem;
+  width: 180px;
+  margin: 0 auto 10px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgba(71, 17, 71, 0.7);
+  border-radius: 35px;
+  text-decoration: none;
+  color: #471147;
+  position: relative;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.mainButton:hover {
+  background: linear-gradient(30deg, #09513C, #13ad80);
+  color: #cdff74;
+}
+
+@media (min-width: 1000px) {
+  .mainButton {
+    font-size: 2vw;
+    width: 20vw;
+  }
+  .mainSocialMedia {
+    font-size: 1.2vw;
+  }
+}
+
+.fa-stack {
+  color: #471147;
+}
+
+.fa-stack:hover {
+  color: #992599;
+}
+
+.x2 {
+  position: relative;
+  -webkit-transform-origin: 0% 0%;
+          transform-origin: 0% 0%;
+  -webkit-transform: scale(2);
+          transform: scale(2);
+}
+
+@media screen and (max-width: 800px) {
+  .mainLogo {
+    width: 95vw;
+    margin-left: -8px;
+    left: 3%;
+  }
+  header {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    height: 100vmax;
+  }
+}
+
+.zoom {
+  -webkit-transition: ease-out 0.3s;
+  transition: ease-out 0.3s;
+}
+
+.zoom:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.uphover {
+  position: relative;
+  -webkit-transition: ease 0.3s;
+  transition: ease 0.3s;
+  -webkit-box-shadow: 0px 3px 4px -1px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 3px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+.uphover:hover {
+  -webkit-transform: translateY(-4px) scale(1.03);
+          transform: translateY(-4px) scale(1.03);
+  -webkit-box-shadow: 0px 12px 3px -8px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 12px 3px -8px rgba(0, 0, 0, 0.3);
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+          animation-name: fadeIn;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s;
+  -webkit-animation-direction: forwards;
+          animation-direction: forwards;
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/*# sourceMappingURL=style.css.map */

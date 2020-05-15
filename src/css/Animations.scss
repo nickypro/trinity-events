@@ -1,0 +1,61 @@
+/* Animations */
+.zoom {
+	transition: ease-out 0.3s;
+  &:hover {
+  	transform: scale(1.1);
+  }
+}
+
+
+.uphover {
+	position: relative;
+  transition: 
+    transform ease 0.3s,
+    box-shadow ease 0.3s;
+	box-shadow: 0px 3px 4px -1px rgba(0,0,0,0.3);
+   &:hover {
+	  transform: translateY(-4px) scale(1.03);
+	  box-shadow: 0px 12px 3px -8px rgba(0,0,0,0.3);
+	}
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  animation-delay: 0s;
+  animation-direction: forwards; 
+}
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  10% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+.leftRightLeft {
+  width: 100%; 
+  background-color: #ddd; 
+  height: 1rem;
+  animation: bounceLeftRight 1s infinite alternate linear; 
+}
+
+@keyframes bounceLeftRight {
+  0%{
+    transform-origin: 0%;
+    transform: scaleX(0.02);
+  }
+  33%{
+    transform-origin: 30%;
+    transform: scaleX(0.3);
+  }
+  50%{
+    transform: scaleX(0.35)
+  }
+  67%{
+    transform-origin: 70%;
+    transform: scaleX(0.3);
+  }
+  100%{
+    transform-origin: 100%;
+    transform: scaleX(0.02);
+  }
+}

@@ -1,0 +1,113 @@
+@import "../../css/colors";
+
+/* Side Menu */
+button{
+  background: transparent;
+}
+
+.menuHead {
+  text-shadow: 1px 1px 10px rgba(black, 0.4);
+  color: $menuHeadColor;
+  transition: color 0.1s;
+  &::after{
+    background-color: $menuHeadColor;
+  }
+  &:hover{
+    color: $menuLinkHover;
+    &::after{
+      background-color: $menuLinkHover;
+    }
+  }
+}
+
+.mainMenu {
+  display: flex; 
+  position: relative;
+	justify-content: center;
+	align-self: stretch;
+	align-items: center;
+	flex-grow: 1;
+  flex-direction: column;
+}
+
+.mainButton {
+	padding: 0.7rem 1rem;
+	text-align: center;
+  font-size: 1.9rem;
+  text-shadow: 0px 0px 16px rgba(white, 0.2);
+	width: 15rem;
+	margin: 0 auto 10px;
+
+  border: 2px solid rgba($menuButtonColor, 0.7);
+	border-radius: 35px;
+
+  cursor: pointer;
+  text-decoration: none;
+	color: $menuButtonColor;
+  background-color: $menuButtonBackground;
+
+	position: relative;
+	transition: 0.3s, color 0.1s;
+	box-sizing: border-box;
+    
+  &:hover {
+    background:	$menuButtonBackgroundHover;
+    color: $menuButtonColorHover;
+    text-shadow: none;
+  }
+}
+
+.socialMediaIcon {
+  color: $menuButtonColor;
+  transition: 0.1s;
+  transition-timing-function: fade-out;
+  &:hover {
+	color: $menuLinkHover;
+  }
+}
+
+.topbar {
+  display: none;
+  @media screen and (max-width: 900px) {
+    display: grid;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    width: 100%;
+    grid-template-columns: 10vh 1fr;
+    grid-template-rows: 3rem
+  }
+}
+
+.burger {
+  font-size: 2.2rem;
+  padding: 0.2rem;
+  color: white;
+  cursor: pointer;
+  &:hover{
+    color: $menuLinkHover;
+  }
+}
+#topbarTitle{
+  text-transform: uppercase;
+  margin: 0px;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  padding: 0px;
+  &::after{
+    display: none;
+  }
+}
+.topbarButton {
+  border: none;
+}
+
+@media screen and (max-width: 900px) {
+  .showMenu{ display: flex; }
+
+  .mainMenu{
+    h1{margin:0.5rem 1rem 2rem;}
+    justify-content: flex-start;
+    transition: 1s;
+  }
+}

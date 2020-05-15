@@ -1,0 +1,24 @@
+
+$darkGreen: #09513C;
+$purpleColor: #471147;  
+$paleGreen: #9CFC97;
+$yellowGreen: #cdff74;
+$golden: #ECFEAA;
+$flax: #E2DE84;
+
+$textColor: $purpleColor;
+
+$linkHover: lighten($purpleColor, 15);
+
+$boxGradient: linear-gradient( 60deg, pink, #D6A);
+
+$mainLinkDark  : #525;
+$mainLinkLight : rgba(#ede, 0.2);
+$mainLinkHover : darken(#ede, 5);
+
+$menuLinkHover: #FBF;
+$menuHeadColor: white;
+$menuButtonColor: white;
+$menuButtonColorHover: #525;
+$menuButtonBackground: rgba(white, 0.1);
+$menuButtonBackgroundHover: linear-gradient(30deg, rgba(#D6A, 0.8), rgba(lighten(rgb(255, 233, 237), 20), 0.8) );
