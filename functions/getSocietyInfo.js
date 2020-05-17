@@ -30,7 +30,7 @@ const getSocietyInfo = ({id, name, url} = def) => {
       let data =  (links[i].attribs) ? links[i].attribs.href : ""
     
       if (data) {
-        if ( data.match("mailto")    ) info.email = data
+        if ( data.match("mailto")    ) info.email = data.replace("mailto:", "")
         if ( data.match("pdf")       ) info.constitution = data
         if ( data.match("twitter")   ) info.twitter = data
         if ( data.match("instagram") ) info.instagram = data

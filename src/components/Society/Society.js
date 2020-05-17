@@ -60,7 +60,7 @@ const Society = (props) => {
           
           {'\t'}
           
-          { props.society.email ? <a href={props.society.email}>
+          { props.society.email ? <a href={`mailto:${props.society.email}`}>
             <FontAwesomeIcon className="mediaLink" icon="envelope"/>
           </a> : ""}
           
