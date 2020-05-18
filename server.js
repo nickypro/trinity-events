@@ -7,16 +7,24 @@ const mysql = require('mysql')
 const creds = require('./mysql-credentials.json')
 
 const scrapeAndUpdate = require('./functions/scrapeAndUpdateEvents')
+const getEventsFromMySQL = require('./functions/getEventsFromMySQL')
 
-//get society info
-const connection = mysql.createConnection(creds)
+//working memory data
 const societies = []
-const listOfSocIds = []
-const SocIdToIndex = {}
+let eventsFromToday = []
 
 const hour = 3600000
-const delay = 24*hour
-const randomInt = (max) => Math.floor(max * Math.random()) 
+
+//used functions
+const todayStringYMD = () => dateFormat(new Date(), "yyyy-mm-dd") 
+function doIntersect(shortArr, longArr) {
+  var setA = new Set(shortArr);
+  var setB = new Set(longArr);
+  const ans = [...setA].filter(x => setB.has(x))
+  return !( ans.length == 0 );
+}
+
+const connection = mysql.createConnection(creds)
 
 //get all the societies from the database
 connection.connect(async (err) => {  
@@ -38,14 +46,24 @@ connection.connect(async (err) => {
         SocIdToIndex[soc.id] = index 
       }) 
 
-      console.log("Got list of societies")
-      scrapeAndUpdate(connection, societies)
+      console.log(" - Got list of societies")
+      //scrapeAndUpdate(connection, societies)
+
+      getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
+        eventsFromToday = eventsRecieved
+      })
+
     }
   });
 });
 
 //run the scraping every hour
-setInterval(() => scrapeAndUpdate(connection, societies) , 1*hour)
+setInterval(async () => {
+  await scrapeAndUpdate(connection, societies) 
+  getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
+    eventsFromToday = eventsRecieved
+  })
+}, 1*hour)
   
 //app
 app.use(express.static(path.join(__dirname, 'build')));
@@ -61,37 +79,22 @@ app.get('/api/eventdata', async (req, res) => {
     selected = listOfSocIds
   }
 
-  const startDate = (req.query.date) ? req.query.date : dateFormat(new Date(), "yyyy-mm-dd") 
-
-  //console.log(listOfSocIds)
-  //console.log(selected, selected.length)
-  //await getEvents(selected, res)
-
-  connection.query(`
-    SELECT
-      e.*,
-      CAST(concat('[', group_concat(json_quote(s.name) ORDER BY s.name SEPARATOR ','), ']') as json) AS societyNames
-    FROM
-      events e
-      INNER JOIN society_event se
-        ON se.event_id = e.id
-      INNER JOIN societies s
-        ON s.id = se.society_id
-    WHERE
-      s.id in (?) AND
-      e.date > '${startDate} 00:00:00'
-    GROUP BY
-      e.id
-    `, [selected], 
-    (err, results, fields) => {
-      if (err) throw err;
-      const events = results.sort((ev1, ev2) => Number(ev1.date) - Number(ev2.date))
-      res.json(events)
-      results.forEach((event, i) => console.log( i, JSON.parse(event.societyNames) ))
+  if (startDate === todayStringYMD()) {
+    if (selected.length == 0) {
+      console.log(` - sending ${eventsFromToday.length} default events starting from today`)
+      res.json(eventsFromToday);
+    } else {
+      console.log(` - sending filtered events starting from today`)
+      selectedIds = new Set(selected)
+      res.json(eventsFromToday.filter( event => doIntersect(event.societyIds, selected) ))
     }
-  )
-
-})
+  } else {
+    console.log(` - performing manual database search for ${startDate}`)
+    getEventsFromMySQL(connection, startDate, (eventsRecieved) => {
+      res.json(eventsRecieved)
+    }, selected)
+  }
+});
 
 //send society info 
 app.get('/api/societies', (req, res) => {
