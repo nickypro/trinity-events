@@ -1,22 +1,21 @@
-//const connectToMySQL = require('./connectToMySQL')
-const getSocieties = require('./getSocieties')
-const getSocietyInfo = require('./getSocietyInfo')
-const updateSocietyInfo = require('./updateSocietyInfo')
+const createTablesInMySQL = require('./createTablesInMySQL')
+const getSocieties = require('./scrapeListOfSocieties')
+const getSocietyInfo = require('./scrapeSocietyInfo')
+const updateSocietyInfo = require('./insertSocietyInfoToMySQL')
 
 const mysql = require('mysql');
 const credentials = require('../mysql-credentials.json')
 
 const connection = mysql.createConnection(credentials);
 
-//connectToMySQL()
-
 function timeout(ms) {return new Promise(resolve => setTimeout(resolve, ms));}
 
 (async () => {
+  await createTablesInMySQL(connection)
+
   const societies = await getSocieties()
-  
   console.log(societies)
-  
+
   for (i in societies) {
     const info = await getSocietyInfo(societies[i])
     updateSocietyInfo(info)

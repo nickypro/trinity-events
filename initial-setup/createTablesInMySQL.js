@@ -1,14 +1,8 @@
-const mysql = require('mysql');
-const credentials = require('../mysql-credentials.json')
-
-const connection = mysql.createConnection(credentials);
-
 // connect to the MySQL server
-connection.connect((err) => {
-  if (err) return console.error('error: ' + err.message);
- 
-  let createSocietiesTable = 
-    `CREATE TABLE IF NOT EXISTS societies(
+const setupTablesInMySQL = async (connection) => {
+
+  let createSocietiesTable = `
+    CREATE TABLE IF NOT EXISTS societies(
       id              INT           primary key,
       name            varchar(255)  not null,
       url             varchar(255)  not null,
@@ -24,23 +18,22 @@ connection.connect((err) => {
       lastScraped     DATETIME
     )`;
       
-  connection.query(createSocietiesTable, (err, results, fields) => {
+  await connection.query(createSocietiesTable, (err, results, fields) => {
     if (err) console.log(err.message);
   });
     
-  let createEventsTable = 
-    `CREATE TABLE IF NOT EXISTS events(
-    id        BIGINT        PRIMARY KEY,
-    url       VARCHAR(255)  NOT NULL,
-    title     VARCHAR(255)  NOT NULL,
-    date      DATE          NOT NULL,
-    until     DATE,
-    location  VARCHAR(255),
-    archived  BOOLEAN,
-    multipleHosts     VARCHAR(255)
+  let createEventsTable = `
+    CREATE TABLE IF NOT EXISTS events(
+      id        BIGINT        PRIMARY KEY,
+      url       VARCHAR(255)  NOT NULL,
+      title     VARCHAR(255)  NOT NULL,
+      date      DATE          NOT NULL,
+      until     DATE,
+      location  VARCHAR(255),
+      archived  BOOLEAN,
   )`;
 
-  connection.query(createEventsTable, (err, results, fields) => {
+  await connection.query(createEventsTable, (err, results, fields) => {
     if (err) console.log(err.message);
   });
 
@@ -53,14 +46,11 @@ connection.connect((err) => {
       FOREIGN KEY (society_id)  REFERENCES societies (id)
   );`;
 
-  connection.query(createJoinTable, (err, results, fields) => {
+  await connection.query(createJoinTable, (err, results, fields) => {
     if (err) console.log(err.message);
   });
 
-  connection.end(err => {
-    if (err) return console.log(err.message)
-  });
+  return;
+}
 
-});
-
-return connection;
+module.exports = setupTablesInMySQL

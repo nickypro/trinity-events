@@ -33,4 +33,4 @@ const getSocieties = () => {
   })
 }
 
-module.exports = getSocieties
+module.exports = getListOfSocieties

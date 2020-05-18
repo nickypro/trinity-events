@@ -9,9 +9,8 @@ connection.connect((err) => {
 
 const updateSocietyInfo = (info) => {
   connection.query(`SELECT name FROM societies WHERE id = '${info.id}' `, (err, res) => {
-      if (err) return console.log(err)
-
-      if (res.length > 0) console.log(res)
+      if (err) return console.log(err.message)
+      if (res.length > 0) return console.log("society already in database: ", res)
       else 
         connection.query('INSERT INTO societies SET ?', info, (err, res) => {
           if(err) {
