@@ -6,7 +6,7 @@ import {useLocaleSetsState} from './functions/hooks'
 
 import Menu from './components/Menu/Menu';
 import BigLogo from './components/BigLogo'
-import Wordpress from './components/Wordpress'
+import StrapiPage from './components/StrapiPage'
 import Events from './components/Events'
 import SignUp from './components/SignUp'
 import Library from './components/Library';
@@ -66,7 +66,7 @@ const App = (props) => {
           <Route path="/societies" component={Societies} />
           <Route path="/library" component={Library} />
           <Route path="/signup" component={SignUp} />
-          <Route path="/:slug" component={Wordpress} />
+          <Route path="/:slug" component={StrapiPage} />
           <Route path="/" component={BigLogo} />
         </Switch>    
       </div>
