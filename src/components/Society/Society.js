@@ -30,76 +30,67 @@ const Society = (props) => {
         data-name={props.society.name} >
     
     <div className="societyMain">
-
       <div className="interaction" style={{display: "flex", flexDirection: "row"}}> 
-          
-          <button className="expansionButton"
-                  style={{transform: ((expanded) ? "rotate(180deg)" : "") + " scale(1.2)",}}
-                  onClick={() => changeExpansion(!expanded)}
-                  > 
-            <FontAwesomeIcon icon="angle-down"/>
-          </button>
-
-          <div>
-          <Checkbox
-            checked={ selected }
-            style={{padding: "0px"}}
-            onChange={ toggleSelection}
-            inputProps={{ 'aria-label': 'primary checkbox' }}
-          />
-          </div>
-          
-      </div>
-      
-      <div className="title">
-      <h2 style={{marginTop: "0.2em"}}>
-          
-        {props.society.name}
-
-        <span>
-          
-          {'\t'}
-          
-          { props.society.email ? <a href={`mailto:${props.society.email}`}>
-            <FontAwesomeIcon className="mediaLink" icon="envelope"/>
-          </a> : ""}
-          
-          {'\t'}
-
-          { props.society.facebook ? <a href={props.society.facebook}>
-            <FontAwesomeIcon className="mediaLink" icon={["fab","facebook"]}/>
-          </a> : ""}
-          
-          {'\t'}
-
-          { props.society.instagram ? <a href={props.society.instagram}>
-            <FontAwesomeIcon className="mediaLink" icon={["fab","instagram"]}/>
-          </a> : ""}
-          
-          {'\t'}
-
-          { props.society.twitter ? <a href={props.society.twitter}>
-            <FontAwesomeIcon className="mediaLink" icon={["fab","twitter"]}/>
-          </a> : ""}
-
-          {'\t'}
-
-          { props.society.twitter ? <a href={props.society.snapchat}>
-            <FontAwesomeIcon className="mediaLink" icon={["fab","snapchat"]}/>
-          </a> : ""}
-
-
-        </span>
         
-        </h2>
-        </div>
-      </div>
+        <button className="expansionButton"
+                style={{transform: ((expanded) ? "rotate(180deg)" : "") + " scale(1.2)",}}
+                onClick={() => changeExpansion(!expanded)}
+                > 
+          <FontAwesomeIcon icon="angle-down"/>
+        </button>
 
-      <p id={props.society.name} 
-        className="societyAbout"
-        style={{display: (expanded)?"block":"none"}}>   
+        <div>
+        <Checkbox
+          checked={ selected }
+          style={{padding: "0px"}}
+          onChange={ toggleSelection}
+          inputProps={{ 'aria-label': 'primary checkbox' }}
+        />
+        </div>
+        
+      </div>
+    
+      <div className="title">
+        <h2 style={{marginTop: "0.2em"}}>
+          {props.society.name}        
+        </h2>
+      </div>
+    </div>
+
+    <div id={props.society.name} 
+      className="societyAbout"
+      style={{display: (expanded)?"block":"none"}}>   
+      
+      <p style={{
+        textAlign: "left",
+        marginLeft: "3.8rem",
+      }}>
+        
+        { props.society.email ? <a href={`mailto:${props.society.email}`}>
+          <FontAwesomeIcon className="mediaLink" icon="envelope"/>
+        </a> : ""}
+        
+        { props.society.facebook ? <a href={props.society.facebook}>
+          <FontAwesomeIcon className="mediaLink" icon={["fab","facebook"]}/>
+        </a> : ""}
+        
+        { props.society.instagram ? <a href={props.society.instagram}>
+          <FontAwesomeIcon className="mediaLink" icon={["fab","instagram"]}/>
+        </a> : ""}
+        
+        { props.society.twitter ? <a href={props.society.twitter}>
+          <FontAwesomeIcon className="mediaLink" icon={["fab","twitter"]}/>
+        </a> : ""}
+
+        { props.society.twitter ? <a href={props.society.snapchat}>
+          <FontAwesomeIcon className="mediaLink" icon={["fab","snapchat"]}/>
+        </a> : ""}
+
+      </p>
+      <p className="societyAbout">
         {props.society.about}
       </p>
+    </div>
 
   </div>
 )}
