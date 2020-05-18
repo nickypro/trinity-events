@@ -5,6 +5,9 @@ A website to easily find societies and events in trinity
 Scrapes events for each society from facebook every 24hours
 Makes it easy to keep up with events from societies you are interested in
 
+## apis
+visit /api for more information
+
 ## installation
 Note that you must have NodeJS and a MySQL 5.7 server installed. You will also need an api key from "https://www.scraperapi.com/"
 
