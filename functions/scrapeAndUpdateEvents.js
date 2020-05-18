@@ -1,5 +1,9 @@
-const apiKeys = require('./scraperApiKeys.js')
-const scrapeEvents = require('./functions/scrapeEvents')
+const apiKeys = require('../scraperApiKeys.js')
+const scrapeEvents = require('./scrapeEvents')
+
+const hour = 3600000
+const delay = 24*hour
+const randomInt = (max) => Math.floor(Math.random()*max)
 
 async function scrapeAndUpdate(db, societies) {
     console.log(`scraping events for ${listOfSocIds.length} societies`)
