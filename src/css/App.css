@@ -187,6 +187,21 @@ a:hover {
   color: #852085;
 }
 
+#root::after {
+  content: "";
+  background-color: #ffccff;
+  background-image: url("../background.jpg");
+  background-position: center;
+  background-size: cover;
+  opacity: 0.17;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+
 /* Content Devision (menu|focus) */
 .welcomeBox {
   text-align: center;
@@ -203,22 +218,6 @@ a:hover {
       grid-template-columns: 20rem 1fr;
   -ms-grid-rows: 100vh;
       grid-template-rows: 100vh;
-}
-
-.welcomeBox::after {
-  content: "";
-  background: linear-gradient(60deg, pink, #D6A);
-  background-color: #ffccff;
-  background-image: url("../background.jpg");
-  background-position: center;
-  background-size: cover;
-  opacity: 0.17;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;
 }
 
 /* Large part of Page */

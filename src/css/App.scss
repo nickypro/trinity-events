@@ -67,6 +67,19 @@ a {
   }
 }
 
+/* Content Devision (menu|focus) */
+.welcomeBox {
+  text-align: center;
+  position: fixed;
+  width: 100%;    
+  display: grid;
+  min-height: 100vh;
+  overflow: auto;
+  overflow-x: hidden;
+  transition: 1s;
+
+  grid-template-columns: 20rem 1fr; 
+  grid-template-rows: 100vh;
 }
 
 /* Large part of Page */
