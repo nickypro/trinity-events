@@ -129,33 +129,9 @@ function eventScraper({scraperApiKey, facebookHandle}, response=()=>{}) {
     return listOfEvents 
   })
 	.catch((err) => {
-    console.log("error scraping: ", err.message)
+    console.log(" - ERROR scraping: ", err.message)
     return null
   });
 }
-
-
-  /*
-  results.forEach((event, i) => {
-    console.log(i, JSON.parse(event.society_names))
-  })
-
-  for (i in selected) {
-    console.log("getting society id : ", selected[i], " -> ", SocIdToIndex[selected[i]])
-    const soc = societies[ SocIdToIndex[selected[i]] ];
-    
-    if (!soc.facebookHandle) continue;
-    
-    const opts = { 
-      scraperApiKey: "5dd2529775fd69daba1371fe479567d3", 
-      facebookHandle: (soc.facebookHandle)
-    }
-    
-    const event = await scrapeEvents(opts)
-    events.push(event)
-  }
-  */
-
-  //res.json(events)
 
 module.exports = eventScraper;

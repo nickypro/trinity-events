@@ -6,7 +6,7 @@ const delay = 24*hour
 const randomInt = (max) => Math.floor(Math.random()*max)
 
 async function scrapeAndUpdate(db, societies) {
-    console.log(`scraping events for ${listOfSocIds.length} societies`)
+    console.log(` - scraping events for ${societies.length} societies`)
   
     for (i in societies) {
       const soc = societies[i]
@@ -14,7 +14,7 @@ async function scrapeAndUpdate(db, societies) {
       // do not scrape if there is no facebook to scrape, or if scraped recently
       if (!soc.facebookHandle) continue
       if ( Number(new Date()) - Number(new Date(soc.lastScraped)) < delay ) continue
-      console.log(`scraping events for ${soc.name}`)
+      console.log(` - scraping events for ${soc.name}`)
   
       //scrape using a random api key
       const scrapeOptions = { 
@@ -25,7 +25,7 @@ async function scrapeAndUpdate(db, societies) {
   
       //ensure results were successful
       if (!events) continue
-      console.log(`${events.length} events scraped for ${soc.name} \n`)
+      console.log(` - ${events.length} events scraped for ${soc.name} \n`)
   
       //if so, make MySQL friendly array of values
       const insertToEvents = []
