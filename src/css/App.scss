@@ -50,23 +50,9 @@ a {
   }
 }
 
-/* Content Devision (menu|focus) */
-.welcomeBox {
-  text-align: center;
-  position: fixed;
-  width: 100%;  
-  display: grid;
-  min-height: 100vh;
-  overflow: auto;
-  overflow-x: hidden;
-  transition: 1s;
-
-  grid-template-columns: 20rem 1fr; 
-  grid-template-rows: 100vh;
-
+#root{
   &::after {
     content: "";
-    background: $boxGradient;
     background-color: rgb(255, 204, 255);
     background-image: url("../background.jpg");
     background-position: center;
@@ -79,6 +65,7 @@ a {
     position: absolute;
     z-index: -1;   
   }
+}
 
 }
 
