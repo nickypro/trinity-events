@@ -2,8 +2,6 @@
   "shortTitle": "TrEvents",
   "longTitle" : "Trinity Events",
   "menuItems" : ["Societies", "Events", "About"],
-  "eventsUrl" : "https://m.facebook.com/pg/du.physoc/events/",
-  "scraperUrl": "http://api.scraperapi.com?api_key=5dd2529775fd69daba1371fe479567d3",
   "wpUrl"     : "https://duphysoc.000webhostapp.com/",
   "mongoUri"  : "",
   "GAnalytics": "",
