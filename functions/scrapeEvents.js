@@ -130,6 +130,7 @@ function eventScraper({scraperApiKey, facebookHandle}, response=()=>{}) {
   })
 	.catch((err) => {
     console.log(" - ERROR scraping: ", err.message)
+    if(response.send) response.send(`Error Scraping for ${facebookHandle}, check it is valid`)
     return null
   });
 }

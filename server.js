@@ -7,6 +7,7 @@ const dateFormat = require('dateformat');
 const mysql = require('mysql')
 const creds = require('./mysql-credentials.json')
 
+const scrapeEvents = require('./functions/scrapeEvents')
 const scrapeAndUpdate = require('./functions/scrapeAndUpdateEvents')
 const getEventsFromMySQL = require('./functions/getEventsFromMySQL')
 
@@ -107,6 +108,13 @@ app.get('/api/eventdata', async (req, res) => {
 app.get('/api/societies', (req, res) => {
   console.log(` - sent ${societies.length} societies`)
   res.json(societies)
+})
+
+app.get('/api/scrape/:apikey/:facebook', async (req, res) => {
+  const scraperApiKey = req.params.apikey;
+  const facebookHandle = req.params.facebook;
+  console.log(` - scraping custom events page from ${facebookHandle} using ${scraperApiKey}`)
+  const ans = await scrapeEvents({scraperApiKey, facebookHandle}, res)
 })
 
 //send react app
