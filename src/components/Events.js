@@ -43,8 +43,7 @@ function Events(props) {
     if (!events.err & !events.error)
       events = events.map(event => ({
         ...event, 
-        date: new Date(event.date), 
-        societyNames: JSON.parse(event.societyNames)
+        date: new Date(event.date)
       }));
 
     console.log(events)
