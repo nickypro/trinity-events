@@ -33,17 +33,15 @@ connection.connect(async (err) => {
   connection.query("SELECT * FROM societies", (err, results, fields) => {
     if (err) console.error(err.message);
     else {
-      // sort events by alphabetical order
+      // sort societies by alphabetical order
       results.sort((soc1, soc2) => {
         if (soc1.name < soc2.name) return -1
         if (soc1.name > soc2.name) return 1
         return 0
       })
-      // get all the ids of the societies
+      // save societies to working memory
       .forEach( (soc, index) => { 
         societies.push(soc)
-        listOfSocIds.push(soc.id) 
-        SocIdToIndex[soc.id] = index 
       }) 
 
       console.log(" - Got list of societies")
@@ -77,13 +75,14 @@ app.use(logger)
 
 //send event data
 app.get('/api/eventdata', async (req, res) => {
-  console.log("sending event data")
+  console.log(" - sending event data")
+  const startDate = (req.query.date.match(/\d{4}-\d{2}-\d{2}/)) ? req.query.date : todayStringYMD()
   
   let selected = []
   if (req.query.socs) selected = await JSON.parse(req.query.socs)
-  if (selected.length === 0) {
-    console.log("selected has length zero")
-    selected = listOfSocIds
+  if (selected.length == 0 | !Array.isArray(selected)) {
+    console.log(" - selected societies has length zero - sending for all societies")
+    selected == []
   }
 
   if (startDate === todayStringYMD()) {
@@ -105,7 +104,7 @@ app.get('/api/eventdata', async (req, res) => {
 
 //send society info 
 app.get('/api/societies', (req, res) => {
-  console.log("sent societies")
+  console.log(` - sent ${societies.length} societies`)
   res.json(societies)
 })
 
