@@ -4,7 +4,7 @@
   "menuItems" : ["Societies", "Events", "About"],
   "wpUrl"     : "https://duphysoc.000webhostapp.com/",
   "mongoUri"  : "",
-  "GAnalytics": "",
+  "GAnalytics": "UA-166891262-1",
   "facebook"  : "https://www.facebook.com/trinityevents/",
   "instagram" : "",
   "email"     : "inbox@trinityevents.ie"
