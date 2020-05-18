@@ -68,6 +68,13 @@ setInterval(async () => {
 //app
 app.use(express.static(path.join(__dirname, 'build')));
 
+//Logger
+const logger = (req, res, next) => {
+  console.log(`${new Date().toUTCString()} - ${req.method} ${req.path} - ${req.ip}`);
+  next();
+}
+app.use(logger)
+
 //send event data
 app.get('/api/eventdata', async (req, res) => {
   console.log("sending event data")
