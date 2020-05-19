@@ -129,7 +129,7 @@ app.get('/:page', function (req, res) {
 });
 
 app.listen(process.env.PORT || 80, () => {
-  console.log(`HTTP  Listening on port ${process.env.PORT || 8080}`)
+  console.log(`HTTP  Listening on port ${process.env.PORT || 80}`)
 });
 
 // we will pass our 'app' to 'https' server
