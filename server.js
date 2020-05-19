@@ -120,6 +120,11 @@ app.get('/api/scrape/:apikey/:facebook', async (req, res) => {
   const ans = await scrapeEvents({scraperApiKey, facebookHandle}, res)
 })
 
+//redirect /admin to the strapi server
+app.get('/admin', (req, res) => {
+  res.redirect('http://trinityevents.ie:57692/admin/')
+})
+
 //send react app
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
@@ -128,6 +133,7 @@ app.get('/:page', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
+// we will host the app on http as well
 app.listen(process.env.PORT || 80, () => {
   console.log(`HTTP  Listening on port ${process.env.PORT || 80}`)
 });
