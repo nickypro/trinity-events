@@ -4,6 +4,9 @@ const path = require('path');
 const app = express();
 const dateFormat = require('dateformat');
 
+const https = require('https');
+const fs = require('fs');
+
 const mysql = require('mysql')
 const creds = require('./mysql-credentials.json')
 
@@ -125,4 +128,19 @@ app.get('/:page', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(process.env.PORT || 80);
+app.listen(process.env.PORT || 80, () => {
+  console.log(`HTTP  Listening on port ${process.env.PORT || 8080}`)
+});
+
+// we will pass our 'app' to 'https' server
+try {
+  https.createServer({
+    key: fs.readFileSync(process.env.PRIVATE_SSL_KEY || './key.pem'),
+    cert: fs.readFileSync(process.env.SSL_CERTIFICATE || '/cert.pem'),
+  }, app)
+  .listen(process.env.SSL_PORT || 443, () => {
+    console.log(`HTTPS Listening on port ${process.env.SSL_PORT || 443}`)
+  });
+} catch (err) {
+  console.log("SSL server initialization failed : ", err.message)
+}
