@@ -50,7 +50,7 @@ connection.connect(async (err) => {
       }) 
 
       console.log(" - Got list of societies")
-      //scrapeAndUpdate(connection, societies)
+      scrapeAndUpdate(connection, societies)
 
       getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
         eventsFromToday = eventsRecieved
