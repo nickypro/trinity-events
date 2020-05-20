@@ -2,23 +2,27 @@ import React, {useState, useEffect, useContext} from 'react'
 import {SelectedSocsContext} from '../App'
 import {Link} from 'react-router-dom';
 import Switch from '@material-ui/core/Switch';
+import {useLocaleObjectState} from '../functions/hooks';
 
 import Society from './Society'
 import Loading from './LoadingBar'
 //const socs = require('../societies.json')
+const hour = 3600000
 
 function Societies(props) {
-  const [societies, setSocieties] = useState([]);
+  const [societies, setSocieties] = useLocaleObjectState("SocietiesInfo", []);
   const [selectedSocs, setSelectedSocs] = useContext(SelectedSocsContext)
   const [shouldViewAllEvents, setViewAllEvents] = useState(selectedSocs.has("VIEW_ALL"))
 
   useEffect(() => {
-    fetchSocieties()
+    if (societies.lastUpdate || new Date() - new Date(societies.lastUpdate) < 1000*hour ) return
+    else fetchSocieties()
   }, [] );
 
   const fetchSocieties = async () => {
     const data      = await fetch(window.location.origin + "/api/societies");
     const societies = await data.json();
+    societies.lastUpdate = new Date()
     setSocieties(societies)
   }
 
@@ -43,6 +47,7 @@ function Societies(props) {
       
       {/* Toggle between all societies and selected few societies */}
       <div>
+      {"Ignore Selection : "}
       <label className="menuLabel" htmlFor="toggleViewAllEvents"> 
         <Switch
             checked={shouldViewAllEvents}
@@ -50,7 +55,7 @@ function Societies(props) {
             name="toggleViewAllEvents"
             inputProps={{ 'aria-label': 'secondary checkbox' }}
         />
-        {shouldViewAllEvents? "View Events from all Trinity Societies" : "View Selected Society Events Only"}
+        {shouldViewAllEvents? "(View from all societies)" : "(View from selected societies)"}
       </label>
       </div>
 
