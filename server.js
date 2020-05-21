@@ -14,6 +14,10 @@ const scrapeEvents = require('./functions/scrapeEvents')
 const scrapeAndUpdate = require('./functions/scrapeAndUpdateEvents')
 const getEventsFromMySQL = require('./functions/getEventsFromMySQL')
 
+const fetch = require('node-fetch');
+const Bluebird = require('bluebird');
+fetch.Promise = Bluebird;
+
 //working memory data
 const societies = []
 let eventsFromToday = []
@@ -50,7 +54,7 @@ connection.connect(async (err) => {
       }) 
 
       console.log(" - Got list of societies")
-      scrapeAndUpdate(connection, societies)
+      //scrapeAndUpdate(connection, societies)
 
       getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
         eventsFromToday = eventsRecieved
@@ -119,6 +123,17 @@ app.get('/api/scrape/:apikey/:facebook', async (req, res) => {
   console.log(` - scraping custom events page from ${facebookHandle} using ${scraperApiKey}`)
   const ans = await scrapeEvents({scraperApiKey, facebookHandle}, res)
 })
+
+app.get('/api/pages', async (req, res) => {
+  try {
+  fetch(`${process.env.STRAPI_URL || "localhost:1337"}/pages`)
+    .then(pages => pages.json())
+    .then(json => res.json(json))
+    .then(console.log(" - sent pages"))
+  } catch (err) {
+    console.log(" - ERROR could not send pages, ", err.message)
+  }
+}) 
 
 //redirect /admin to the strapi server
 app.get('/admin', (req, res) => {
