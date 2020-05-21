@@ -8,9 +8,7 @@ renderer.link = function (href, title, text) {
 }
 renderer.gfm = true;
 
-const config = require('../config.json');
-
-const postsUrl = `${config.strapiUrl}/pages`;
+const postsUrl = `/api/pages`;
 
 function Page(props) {
   const [pages, setPages] = useState([]);
