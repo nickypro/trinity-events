@@ -126,7 +126,7 @@ app.get('/api/scrape/:apikey/:facebook', async (req, res) => {
 
 app.get('/api/pages', async (req, res) => {
   try {
-  fetch(`${process.env.STRAPI_URL || "localhost:1337"}/pages`)
+  fetch(`${process.env.STRAPI_URL || "http://localhost:1337"}/pages`)
     .then(pages => pages.json())
     .then(json => res.json(json))
     .then(console.log(" - sent pages"))
