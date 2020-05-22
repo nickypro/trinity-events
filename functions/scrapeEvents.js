@@ -96,7 +96,7 @@ function eventScraper({scraperApiKey, facebookHandle}, response=()=>{}) {
       const href = event[event.length-1].attribs.href.match(regex)[0];
       const id = href.match(/\d+/)[0]
       
-      //format time to work if like 8 PM
+      //format time to work if like "8 PM" instead of "8:00 PM" 
       if (time.length === 4)
       time = time.slice(0, 1) + ":00" + time.slice(1)
       if (time.length === 5)
