@@ -41,11 +41,17 @@ const connection = mysql.createConnection(creds)
 
 //get all the societies from the database
 connection.connect(async (err) => {  
-  if (err) return console.error('error: ' + err.message);
+  if (err) { 
+    log(` - ERROR connecting to database : ${err.message}`)
+    console.error('error: ' + err.message)
+    return;
+  }
   
   connection.query("SELECT * FROM societies", (err, results, fields) => {
-    if (err) console.error(err.message);
-    else {
+    if (err) {
+      console.error(err.message);
+      log(` - ERROR getting societies : ${err.message}`)
+    } else {
       // sort societies by alphabetical order
       results.sort((soc1, soc2) => {
         if (soc1.name < soc2.name) return -1
@@ -58,6 +64,7 @@ connection.connect(async (err) => {
       }) 
 
       console.log(" - Got list of societies")
+      log(" - Got list of societies")
       //scrapeAndUpdate(connection, societies)
 
       getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
@@ -82,6 +89,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 //Logger
 const logger = (req, res, next) => {
   console.log(`${new Date().toUTCString()} - ${req.method} ${req.path} - ${req.ip}`);
+  log(`${new Date().toUTCString()} - ${req.method} ${req.path} - ${req.ip}`);
   next();
 }
 app.use(logger)
@@ -89,26 +97,31 @@ app.use(logger)
 //send event data
 app.get('/api/eventdata', async (req, res) => {
   console.log(" - sending event data")
+  log(" - sending event data")
   const startDate = (req.query.date.match(/\d{4}-\d{2}-\d{2}/)) ? req.query.date : todayStringYMD()
   
   let selected = []
   if (req.query.socs) selected = await JSON.parse(req.query.socs)
   if (selected.length == 0 | !Array.isArray(selected)) {
     console.log(" - selected societies has length zero - sending for all societies")
+    log(" - selected societies has length zero - sending for all societies")
     selected == []
   }
 
   if (startDate === todayStringYMD()) {
     if (selected.length == 0) {
       console.log(` - sending ${eventsFromToday.length} default events starting from today`)
+      log(` - sending ${eventsFromToday.length} default events starting from today`)
       res.json(eventsFromToday);
     } else {
       console.log(` - sending filtered events starting from today`)
+      log(` - sending filtered events starting from today`)
       selectedIds = new Set(selected)
       res.json(eventsFromToday.filter( event => doIntersect(event.societyIds, selected) ))
     }
   } else {
     console.log(` - performing manual database search for ${startDate}`)
+    log(` - performing manual database search for ${startDate}`)
     getEventsFromMySQL(connection, startDate, (eventsRecieved) => {
       res.json(eventsRecieved)
     }, selected)
@@ -118,6 +131,7 @@ app.get('/api/eventdata', async (req, res) => {
 //send society info 
 app.get('/api/societies', (req, res) => {
   console.log(` - sent ${societies.length} societies`)
+  log(` - sent ${societies.length} societies`)
   res.json(societies)
 })
 
@@ -125,6 +139,7 @@ app.get('/api/scrape/:apikey/:facebook', async (req, res) => {
   const scraperApiKey = req.params.apikey;
   const facebookHandle = req.params.facebook;
   console.log(` - scraping custom events page from ${facebookHandle} using ${scraperApiKey}`)
+  log(` - scraping custom events page from ${facebookHandle} using ${scraperApiKey}`)
   const ans = await scrapeEvents({scraperApiKey, facebookHandle}, res)
 })
 
@@ -136,6 +151,7 @@ app.get('/api/pages', async (req, res) => {
     .then(console.log(" - sent pages"))
   } catch (err) {
     console.log(" - ERROR could not send pages, ", err.message)
+    log(" - ERROR could not send pages, ", err.message)
   }
 }) 
 
@@ -155,6 +171,7 @@ app.get('/:page', function (req, res) {
 // we will host the app on http as well
 app.listen(process.env.PORT || 80, () => {
   console.log(`HTTP  Listening on port ${process.env.PORT || 80}`)
+  log(`HTTP  Listening on port ${process.env.PORT || 80}`)
 });
 
 // we will pass our 'app' to 'https' server
@@ -165,7 +182,9 @@ try {
   }, app)
   .listen(process.env.SSL_PORT || 443, () => {
     console.log(`HTTPS Listening on port ${process.env.SSL_PORT || 443}`)
+    log(`HTTPS Listening on port ${process.env.SSL_PORT || 443}`)
   });
 } catch (err) {
   console.log("SSL server initialization failed : ", err.message)
+  log("SSL server initialization failed : ", err.message)
 }
