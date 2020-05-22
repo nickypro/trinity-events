@@ -7,6 +7,10 @@ const dateFormat = require('dateformat');
 const https = require('https');
 const fs = require('fs');
 
+const util = require('util');
+const log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+const log = (d) => log_file.write(util.format(d) + '\n');
+
 const mysql = require('mysql')
 const creds = require('./mysql-credentials.json')
 
