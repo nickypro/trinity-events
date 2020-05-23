@@ -45,6 +45,7 @@ const Society = (props) => {
           style={{padding: "0px"}}
           onChange={ toggleSelection}
           inputProps={{ 'aria-label': 'primary checkbox' }}
+          disabled={(props.society.facebookHandle) ? false : true}
         />
         </div>
         
