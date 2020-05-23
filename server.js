@@ -98,7 +98,7 @@ app.use(logger)
 app.get('/api/eventdata', async (req, res) => {
   console.log(" - sending event data")
   log(" - sending event data")
-  const startDate = (req.query.date.match(/\d{4}-\d{2}-\d{2}/)) ? req.query.date : todayStringYMD()
+  const startDate = (req.query.date && req.query.date.match(/\d{4}-\d{2}-\d{2}/)) ? req.query.date : todayStringYMD()
   
   let selected = []
   if (req.query.socs) selected = await JSON.parse(req.query.socs)
