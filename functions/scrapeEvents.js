@@ -2,7 +2,7 @@ const rp = require('request-promise');
 const cheerio = require('cheerio');
 
 const hour = 3600000
-const maxTimeForward = 60*24*hour //2 months
+const maxTimeForward = 6*30*24*hour //6 months
 
 /* cut string */
 function cut(str, from, to) {
@@ -102,9 +102,12 @@ function eventScraper({scraperApiKey, facebookHandle}, response=()=>{}) {
       if (time.length === 5)
       time = time.slice(0, 2) + ":00" + time.slice(2)
 
+      //in new events format, the year is not included, so we guess
       const yr = new Date().getUTCFullYear();
       let date = new Date(yr+" "+dayMonth+" "+time)
-      if (Number(date) - Number(new Date) > maxTimeForward)
+      if (date.getMonth() < 3 && new Date().getMonth >= 9)
+        date = new Date(`${yr+1} ${dayMonth} ${time}`)
+      if (Number(date) - Number(new Date()) > maxTimeForward)
         date = new Date(`${yr-1} ${dayMonth} ${time}`)
 
       //package the event into an object
