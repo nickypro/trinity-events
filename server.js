@@ -96,6 +96,7 @@ app.use(logger)
 
 //send event data
 app.get('/api/eventdata', async (req, res) => {
+try {
   console.log(" - sending event data")
   log(" - sending event data")
   const startDate = (req.query.date && req.query.date.match(/\d{4}-\d{2}-\d{2}/)) ? req.query.date : todayStringYMD()
@@ -126,6 +127,11 @@ app.get('/api/eventdata', async (req, res) => {
       res.json(eventsRecieved)
     }, selected)
   }
+} catch (err) {
+  console.log(" - Error with GET societies : ", err.message)
+  log(" - Error with GET societies : ", err.message)
+  res.status("400")
+}
 });
 
 //send society info 
