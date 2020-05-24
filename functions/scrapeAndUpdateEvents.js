@@ -1,8 +1,9 @@
 const apiKeys = require('../scraperApiKeys.js')
 const scrapeEvents = require('./scrapeEvents')
 
+const fs = require('fs')
 const util = require('util');
-const log_file = fs.createWriteStream(__dirname + `../scrape.log`, {flags : 'w'});
+const log_file = fs.createWriteStream(__dirname + `/scrape.log`, {flags : 'w'});
 const log = (d) => log_file.write(util.format(d) + '\n');
 
 const hour = 3600000
