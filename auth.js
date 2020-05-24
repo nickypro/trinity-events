@@ -2,6 +2,11 @@ const passport = require("passport")
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const configAuth = require('./configAuth.json')
 
+const fs = require('fs');
+const util = require('util');
+const log_file = fs.createWriteStream(__dirname + `/auth.log`, {flags : 'w'});
+const log = (d) => log_file.write(util.format(d) + '\n');
+
 const auth = (app, db) => {try {
   passport.serializeUser((user, done) => {
     console.log(user)  
@@ -32,12 +37,13 @@ const auth = (app, db) => {try {
           return done(err)
 
         if (rows.length > 1) {
-          console.log(" - ERROR: ID not specified")
+          log(" - ERROR: ID not specified")
           return done({message: " - ERROR: ID not specified"})
         }
 
         if (rows.length === 1) {
           //if found, then login
+          log( JSON.stringify(rows[0]) )
           return done(null, rows[0])
 
         } else {
@@ -52,7 +58,7 @@ const auth = (app, db) => {try {
             
             if (!user) {
               //if there is no such email, then return an error
-              console.log(" - ERROR: Non-society email login attempt")
+              log(" - ERROR: Non-society email login attempt")
               return done({message : " - ERROR: Non-society email login attempt"})
 
             } else {
@@ -62,6 +68,8 @@ const auth = (app, db) => {try {
               const name    = profile.displayName
               const token   = profile.token
               
+              log(`adding user ${openid}, ${email}, ${name}, ${token}`)
+
               db.query(`
                 INSERT INTO society_logins (  openid,    email,    name,    token ) 
                                     VALUES (${openid}, ${email}, ${name}, ${token});`
