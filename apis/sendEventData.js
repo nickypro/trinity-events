@@ -1,5 +1,12 @@
 const getEventsFromMySQL = require('../functions/getEventsFromMySQL')
 
+function doIntersect(shortArr, longArr) {
+  var setA = new Set(shortArr);
+  var setB = new Set(longArr);
+  const ans = [...setA].filter(x => setB.has(x))
+  return !( ans.length == 0 );
+}
+
 const sendEventData = async (req, res, connection, eventsFromToday, todayStringYMD, log = () => {}) => {
   const startDate = (req.query.date && req.query.date.match(/\d{4}-\d{2}-\d{2}/)) ? req.query.date : todayStringYMD()
   
