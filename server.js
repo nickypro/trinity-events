@@ -18,6 +18,7 @@ const passport = require('passport')
 const auth  = require('./auth')
 
 const routesApi = require('./routesApi') 
+const routesDashboard = require('./routesDashboard')
 
 const getSocieties = require('./functions/getSocieties')
 const getEventsFromMySQL = require('./functions/getEventsFromMySQL')
