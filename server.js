@@ -1,8 +1,8 @@
 require('dotenv').config()
 const express = require('express')
+const session = require('express-session')
 const path = require('path');
 const app = express();
-const dateFormat = require('dateformat');
 
 const https = require('https');
 const fs = require('fs');
@@ -14,79 +14,23 @@ const log = (d) => log_file.write(util.format(d) + '\n');
 const mysql = require('mysql')
 const creds = require('./mysql-credentials.json')
 
-const scrapeEvents = require('./functions/scrapeEvents')
-const scrapeAndUpdate = require('./functions/scrapeAndUpdateEvents')
+const routesApi = require('./routesApi') 
+
+const getSocieties = require('./functions/getSocieties')
 const getEventsFromMySQL = require('./functions/getEventsFromMySQL')
 
-const sendEventData = require('./apis/sendEventData')
-
-const fetch = require('node-fetch');
-const Bluebird = require('bluebird');
-fetch.Promise = Bluebird;
-
 //working memory data
-const societies = []
+let societies = []
 let eventsFromToday = []
 
-const hour = 3600000
-
 //used functions
-const todayStringYMD = () => dateFormat(new Date(), "yyyy-mm-dd") 
-function doIntersect(shortArr, longArr) {
-  var setA = new Set(shortArr);
-  var setB = new Set(longArr);
-  const ans = [...setA].filter(x => setB.has(x))
-  return !( ans.length == 0 );
-}
+const todayStringYMD = require('./functions/todayStringYMD')
 
 const connection = mysql.createConnection(creds)
 
-//get all the societies from the database
-connection.connect(async (err) => {  
-  if (err) { 
-    log(` - ERROR connecting to database : ${err.message}`)
-    console.error('error: ' + err.message)
-    return;
-  }
-  
-  connection.query("SELECT * FROM societies", (err, results, fields) => {
-    if (err) {
-      console.error(err.message);
-      log(` - ERROR getting societies : ${err.message}`)
-    } else {
-      // sort societies by alphabetical order
-      results.sort((soc1, soc2) => {
-        if (soc1.name < soc2.name) return -1
-        if (soc1.name > soc2.name) return 1
-        return 0
-      })
-      // save societies to working memory
-      .forEach( (soc, index) => { 
-        societies.push(soc)
-      }) 
-
-      console.log(" - Got list of societies")
-      log(" - Got list of societies")
-      //scrapeAndUpdate(connection, societies)
-
-      getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
-        eventsFromToday = eventsRecieved
-      })
-
-    }
-  });
-});
-
-//run the scraping every hour
-setInterval(async () => {
-  await scrapeAndUpdate(connection, societies) 
-  getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
-    eventsFromToday = eventsRecieved
-  })
-}, 1*hour)
-  
-//app
+//app setup
 app.use(express.static(path.join(__dirname, 'build')));
+
 
 //Logger
 const logger = (req, res, next) => {
@@ -96,46 +40,25 @@ const logger = (req, res, next) => {
 }
 app.use(logger)
 
-//send event data
-app.get('/api/eventdata', async (req, res) => {
-try {
-  console.log(" - sending event data")
-  log(" - sending event data")
-  sendEventData(req, res, connection, eventsFromToday, todayStringYMD, log)
-  
-} catch (err) {
-  console.log(" - Error with GET societies : ", err.message)
-  log(" - Error with GET societies : ", err.message)
-  res.status("400")
-}
-});
 
-//send society info 
-app.get('/api/societies', (req, res) => {
-  console.log(` - sent ${societies.length} societies`)
-  log(` - sent ${societies.length} societies`)
-  res.json(societies)
-})
-
-app.get('/api/scrape/:apikey/:facebook', async (req, res) => {
-  const scraperApiKey = req.params.apikey;
-  const facebookHandle = req.params.facebook;
-  console.log(` - scraping custom events page from ${facebookHandle} using ${scraperApiKey}`)
-  log(` - scraping custom events page from ${facebookHandle} using ${scraperApiKey}`)
-  const ans = await scrapeEvents({scraperApiKey, facebookHandle}, res)
-})
-
-app.get('/api/pages', async (req, res) => {
-  try {
-  fetch(`${process.env.STRAPI_URL || "http://localhost:1337"}/pages`)
-    .then(pages => pages.json())
-    .then(json => res.json(json))
-    .then(console.log(" - sent pages"))
-  } catch (err) {
-    console.log(" - ERROR could not send pages, ", err.message)
-    log(" - ERROR could not send pages, ", err.message)
+//get all the societies from the database
+connection.connect(async (err) => {  
+  if (err) { 
+    log(` - ERROR connecting to database : ${err.message}`)
+    console.error('error: ' + err.message)
+    return;
   }
-}) 
+
+  // get and save events from today
+  getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
+    eventsFromToday = eventsRecieved
+  })
+
+  // get and save list of all societies
+  societies = await getSocieties(connection, log)
+
+  routesApi(app, connection, societies, eventsFromToday, log)
+});
 
 //redirect /admin to the strapi server
 app.get('/admin', (req, res) => {
