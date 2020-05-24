@@ -66,17 +66,18 @@ const auth = (app, db) => {try {
               console.log(profile)
               const openid  = profile.id
               const name    = profile.displayName
+              const picture = profile.photos[0] ? profile.photos[0].value : null
               
-              log(`adding user ${openid}, ${email}, ${name}, ${token}`)
+              log(`adding user ${openid}, ${email}, ${name}, ${token}, ${picture}`)
 
               db.query(`
-                INSERT INTO society_logins (   openid,      email,      name,      token ) 
-                                    VALUES ("${openid}", "${email}", "${name}", "${token}");`
+                INSERT INTO society_logins (   openid,      email,      name,      token,      picture) 
+                                    VALUES ("${openid}", "${email}", "${name}", "${token}", "${picture}");`
               , (err, result) => {
                 if (err)
                   return done(err)
 
-                return done(null, {openid, name, email, token})
+                return done(null, {openid, name, email, token, picture})
               })
             }
           })
