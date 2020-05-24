@@ -1,5 +1,6 @@
 const passport = require("passport")
 const GoogleStrategy = require('passport-google-oauth').Strategy;
+const configAuth = require('./configAuth.json')
 
 const auth = (app, db) => {try {
   passport.serializeUser((user, done) => {
