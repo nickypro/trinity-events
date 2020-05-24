@@ -18,6 +18,8 @@ const scrapeEvents = require('./functions/scrapeEvents')
 const scrapeAndUpdate = require('./functions/scrapeAndUpdateEvents')
 const getEventsFromMySQL = require('./functions/getEventsFromMySQL')
 
+const sendEventData = require('./apis/sendEventData')
+
 const fetch = require('node-fetch');
 const Bluebird = require('bluebird');
 fetch.Promise = Bluebird;
@@ -99,34 +101,8 @@ app.get('/api/eventdata', async (req, res) => {
 try {
   console.log(" - sending event data")
   log(" - sending event data")
-  const startDate = (req.query.date && req.query.date.match(/\d{4}-\d{2}-\d{2}/)) ? req.query.date : todayStringYMD()
+  sendEventData(req, res, connection, eventsFromToday, todayStringYMD, log)
   
-  let selected = []
-  if (req.query.socs) selected = await JSON.parse(req.query.socs)
-  if (selected.length == 0 | !Array.isArray(selected)) {
-    console.log(" - selected societies has length zero - sending for all societies")
-    log(" - selected societies has length zero - sending for all societies")
-    selected == []
-  }
-
-  if (startDate === todayStringYMD()) {
-    if (selected.length == 0) {
-      console.log(` - sending ${eventsFromToday.length} default events starting from today`)
-      log(` - sending ${eventsFromToday.length} default events starting from today`)
-      res.json(eventsFromToday);
-    } else {
-      console.log(` - sending filtered events starting from today`)
-      log(` - sending filtered events starting from today`)
-      selectedIds = new Set(selected)
-      res.json(eventsFromToday.filter( event => doIntersect(event.societyIds, selected) ))
-    }
-  } else {
-    console.log(` - performing manual database search for ${startDate}`)
-    log(` - performing manual database search for ${startDate}`)
-    getEventsFromMySQL(connection, startDate, (eventsRecieved) => {
-      res.json(eventsRecieved)
-    }, selected)
-  }
 } catch (err) {
   console.log(" - Error with GET societies : ", err.message)
   log(" - Error with GET societies : ", err.message)
