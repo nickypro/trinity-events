@@ -1,12 +1,17 @@
 const apiKeys = require('../scraperApiKeys.js')
 const scrapeEvents = require('./scrapeEvents')
 
+const util = require('util');
+const log_file = fs.createWriteStream(__dirname + `../scrape.log`, {flags : 'w'});
+const log = (d) => log_file.write(util.format(d) + '\n');
+
 const hour = 3600000
 const delay = 24*hour
 const randomInt = (max) => Math.floor(Math.random()*max)
 
 async function scrapeAndUpdate(db, societies) {
     console.log(` - scraping events for ${societies.length} societies`)
+    log(` - scraping events for ${societies.length} societies`)
   
     for (i in societies) {
       const soc = societies[i]
@@ -15,6 +20,7 @@ async function scrapeAndUpdate(db, societies) {
       if (!soc.facebookHandle) continue
       if ( Number(new Date()) - Number(new Date(soc.lastScraped)) < delay ) continue
       console.log(` - scraping events for ${soc.name}`)
+      log(` - scraping events for ${soc.name}`)
   
       //scrape using a random api key
       const scrapeOptions = { 
@@ -26,6 +32,7 @@ async function scrapeAndUpdate(db, societies) {
       //ensure results were successful
       if (!events) continue
       console.log(` - ${events.length} events scraped for ${soc.name} \n`)
+      log(` - ${events.length} events scraped for ${soc.name} \n`)
   
       //if so, make MySQL friendly array of values
       const insertToEvents = []
@@ -43,7 +50,10 @@ async function scrapeAndUpdate(db, societies) {
         WHERE 
           id = ${soc.id};
       `, [new Date()], (err, results, fields) => {
-        if (err) console.error(`error updating last-scraped time for ${soc.name}:  ${err.message}`);
+        if (err) {
+          console.error(`error updating last-scraped time for ${soc.name}:  ${err.message}`);
+          log(`error updating last-scraped time for ${soc.name}:  ${err.message}`);
+        }
       });
        
       //update the events
@@ -57,7 +67,10 @@ async function scrapeAndUpdate(db, societies) {
           date     = IF( date < NOW() - INTERVAL 90 DAY, date, VALUES (date) ),
           location = VALUES (location);
           `, [insertToEvents], (err, results, fields) => {
-        if (err) console.error(`error in events for ${soc.name}:  ${err.message}`);
+        if (err) {
+          console.error(`error in events for ${soc.name}:  ${err.message}`);
+          log(`error in events for ${soc.name}:  ${err.message}`);
+        }
       });
   
       //update the join table with those events
@@ -65,7 +78,10 @@ async function scrapeAndUpdate(db, societies) {
         INSERT IGNORE INTO society_event 
           (society_id, event_id)
         VALUES ?;`, [insertToJoin], (err, results, fields) => {
-        if (err) console.log(`error in join for ${soc.name}: `, err.message)
+        if (err) {
+          console.log(`error in join for ${soc.name}: `, err.message)
+          log(`error in join for ${soc.name}: `, err.message)
+        }
       })
   
     }
