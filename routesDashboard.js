@@ -12,8 +12,8 @@ const routesDashboard = (app, db) => {
   // the callback after google has authorized the user
   app.get('/auth/google/callback',
     passport.authorize('google', {
-      successRedirect : '/profile',
-      failureRedirect : '/login'
+      successRedirect : '/dashboard/profile',
+      failureRedirect : '/login-failed'
     }
   ));
 }
