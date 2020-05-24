@@ -14,6 +14,9 @@ const log = (d) => log_file.write(util.format(d) + '\n');
 const mysql = require('mysql')
 const creds = require('./mysql-credentials.json')
 
+const passport = require('passport')
+const auth  = require('./auth')
+
 const routesApi = require('./routesApi') 
 
 const getSocieties = require('./functions/getSocieties')
@@ -31,6 +34,14 @@ const connection = mysql.createConnection(creds)
 //app setup
 app.use(express.static(path.join(__dirname, 'build')));
 
+//app passport setup
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize())
+app.use(passport.session())
 
 //Logger
 const logger = (req, res, next) => {
@@ -40,7 +51,6 @@ const logger = (req, res, next) => {
 }
 app.use(logger)
 
-
 //get all the societies from the database
 connection.connect(async (err) => {  
   if (err) { 
@@ -48,7 +58,7 @@ connection.connect(async (err) => {
     console.error('error: ' + err.message)
     return;
   }
-
+  
   // get and save events from today
   getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
     eventsFromToday = eventsRecieved
@@ -58,7 +68,9 @@ connection.connect(async (err) => {
   societies = await getSocieties(connection, log)
 
   routesApi(app, connection, societies, eventsFromToday, log)
+
 });
+
 
 //redirect /admin to the strapi server
 app.get('/admin', (req, res) => {
