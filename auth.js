@@ -71,8 +71,8 @@ const auth = (app, db) => {try {
               log(`adding user ${openid}, ${email}, ${name}, ${token}`)
 
               db.query(`
-                INSERT INTO society_logins (  openid,    email,    name,    token ) 
-                                    VALUES (${openid}, ${email}, ${name}, ${token});`
+                INSERT INTO society_logins (   openid,      email,      name,      token ) 
+                                    VALUES ("${openid}", "${email}", "${name}", "${token}");`
               , (err, result) => {
                 if (err)
                   return done(err)
