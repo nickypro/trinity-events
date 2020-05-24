@@ -32,7 +32,7 @@ const auth = (app, db) => {try {
     // User.findOne won't fire until we have all our data back from Google
     //process.nextTick(function() {
     process.nextTick( () => {
-      db.query(`SELECT * FROM 'society_logins' WHERE openid = '${profile.id}';`, (err, rows) => {
+      db.query(`SELECT * FROM society_logins WHERE openid = "${profile.id}";`, (err, rows) => {
         if (err) 
           return done(err)
 
@@ -52,7 +52,7 @@ const auth = (app, db) => {try {
           if (!email) 
             return done(null, user)
 
-          db.query(`SELECT email FROM 'societies' WHERE email = '${email}'`, (err, user) => {
+          db.query(`SELECT email FROM societies WHERE email = "${email}"`, (err, user) => {
             if (err)
               return done(err)
             
