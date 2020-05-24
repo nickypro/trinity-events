@@ -66,7 +66,6 @@ const auth = (app, db) => {try {
               console.log(profile)
               const openid  = profile.id
               const name    = profile.displayName
-              const token   = profile.token
               
               log(`adding user ${openid}, ${email}, ${name}, ${token}`)
 
