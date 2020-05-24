@@ -22,6 +22,7 @@ key.pem
 .env.test.local
 .env.production.local
 db.sql
+configAuth.json
 
 npm-debug.log*
 yarn-debug.log*
