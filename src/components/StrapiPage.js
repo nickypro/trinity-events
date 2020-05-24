@@ -4,7 +4,7 @@ import marked from 'marked'
 
 const renderer = new marked.Renderer();
 renderer.link = function (href, title, text) {
-  return `<a target="_blank" href="${href}">${text}`+"</a>";
+  return `<a target="_blank" href="${href}">${text}</a>`;
 }
 renderer.gfm = true;
 
