@@ -75,39 +75,38 @@ connection.connect(async (err) => {
   auth(app, connection)
   routesDashboard(app, connection)
 
-});
+  //redirect /admin to the strapi server
+  app.get('/admin', (req, res) => {
+    res.redirect('http://trinityevents.ie:57692/admin/')
+  })
 
-
-//redirect /admin to the strapi server
-app.get('/admin', (req, res) => {
-  res.redirect('http://trinityevents.ie:57692/admin/')
-})
-
-//send react app
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-app.get('/:page', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
-// we will host the app on http as well
-app.listen(process.env.PORT || 80, () => {
-  console.log(`HTTP  Listening on port ${process.env.PORT || 80}`)
-  log(`HTTP  Listening on port ${process.env.PORT || 80}`)
-});
-
-// we will pass our 'app' to 'https' server
-try {
-  https.createServer({
-    key: fs.readFileSync(process.env.PRIVATE_SSL_KEY || './key.pem'),
-    cert: fs.readFileSync(process.env.SSL_CERTIFICATE || '/cert.pem'),
-  }, app)
-  .listen(process.env.SSL_PORT || 443, () => {
-    console.log(`HTTPS Listening on port ${process.env.SSL_PORT || 443}`)
-    log(`HTTPS Listening on port ${process.env.SSL_PORT || 443}`)
+  //send react app
+  app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });
-} catch (err) {
-  console.log("SSL server initialization failed : ", err.message)
-  log("SSL server initialization failed : ", err.message)
-}
+  app.get('/:page', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  });
+
+  // we will host the app on http as well
+  app.listen(process.env.PORT || 80, () => {
+    console.log(`HTTP  Listening on port ${process.env.PORT || 80}`)
+    log(`HTTP  Listening on port ${process.env.PORT || 80}`)
+  });
+
+  // we will pass our 'app' to 'https' server
+  try {
+    https.createServer({
+      key: fs.readFileSync(process.env.PRIVATE_SSL_KEY || './key.pem'),
+      cert: fs.readFileSync(process.env.SSL_CERTIFICATE || '/cert.pem'),
+    }, app)
+    .listen(process.env.SSL_PORT || 443, () => {
+      console.log(`HTTPS Listening on port ${process.env.SSL_PORT || 443}`)
+      log(`HTTPS Listening on port ${process.env.SSL_PORT || 443}`)
+    });
+  } catch (err) {
+    console.log("SSL server initialization failed : ", err.message)
+    log("SSL server initialization failed : ", err.message)
+  }
+
+});
