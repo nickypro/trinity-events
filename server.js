@@ -69,6 +69,10 @@ connection.connect(async (err) => {
 
   routesApi(app, connection, societies, eventsFromToday, log)
 
+  //add passport authentication and societies dashboard
+  auth(app, connection)
+  routesDashboard(app, connection)
+
 });
 
 
