@@ -67,6 +67,7 @@ connection.connect(async (err) => {
   // get and save list of all societies
   societies = await getSocieties(connection, log)
 
+  //routes for /api calls
   routesApi(app, connection, societies, eventsFromToday, log)
 
   //add passport authentication and societies dashboard
