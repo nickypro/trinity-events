@@ -34,7 +34,7 @@ const routesDashboard = (app, db) => {
 
   app.route('/dashboard/profile')
     .get(ensureAuthenticated, (req, res) => {
-      res.render("/views/pug/profile", {name: req.user.name})
+      res.sendFile(path.join(__dirname, 'build', 'index.html'));
     })
 }
 
