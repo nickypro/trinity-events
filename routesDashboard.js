@@ -23,7 +23,7 @@ const routesDashboard = (app, db) => {
     });
 
 
-  app.get("/login/success", ensureAuthenticated, (req, res) => {
+  app.get("/auth/login/success", ensureAuthenticated, (req, res) => {
     if (req.user) {
       res.json({
         success: true,
