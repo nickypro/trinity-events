@@ -15,6 +15,7 @@ const mysql = require('mysql')
 const creds = require('./mysql-credentials.json')
 
 const passport = require('passport')
+const cors     = require('./cors')
 const auth  = require('./auth')
 
 const routesApi = require('./routesApi') 
@@ -43,6 +44,7 @@ app.use(session({
 }));
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(cors())
 
 //Logger
 const logger = (req, res, next) => {
