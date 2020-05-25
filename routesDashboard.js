@@ -23,16 +23,14 @@ const routesDashboard = (app, db) => {
     });
 
 
-  app.get("/auth/login/success", ensureAuthenticated, (req, res) => {
-    if (req.user) {
-      res.json({
-        success: true,
-        message: "user has successfully authenticated",
-        user: req.user,
-        cookies: req.cookies
-      });
-    }
-  });
+  app.get("/auth/login/success", ensureAuthenticated, (req, res) =>
+    res.json({
+      success: true,
+      message: "user has successfully authenticated",
+      user: req.user,
+      cookies: req.cookies
+    })
+  );
 
   app.route('/dashboard/profile')
     .get(ensureAuthenticated, (req, res) => {
