@@ -32,6 +32,39 @@ const App = (props) => {
   const [selectedSocs, setSelectedSocs] = useLocaleSetsState("selectedSocs")
   const [width, setWidth] = useState(window.innerWidth)
   const [menuHidden, setMenuHidden] = useState(false)
+  const [auth, setAuth] = useState({
+    user: {},
+    error: null,
+    authenticated: false,
+  })
+
+  useEffect(() => {
+    fetch("/auth/login/success", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true
+      }
+    })
+      .then(response => {
+        if (response.status === 200) return response.json();
+        throw new Error("failed to authenticate user");
+      })
+      .then(responseJson => {
+        setAuth({
+          authenticated: true,
+          user: responseJson.user,
+        });
+      })
+      .catch(error => {
+        setAuth({
+          authenticated: false,
+          error: "Failed to authenticate user"
+        });
+      });
+  })
 
   const toggleMenu = () => setMenuHidden(!menuHidden)
 
