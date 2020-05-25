@@ -1,6 +1,7 @@
-require('dotenv').config()
 const express = require('express')
-const session = require('express-session')
+const cookieSession = require('cookie-session')
+const cookieParser = require("cookie-parser"); // parse cookie header
+
 const path = require('path');
 const app = express();
 require('dotenv').config({ path: path.resolve(__dirname, './.env') })
@@ -38,11 +39,13 @@ const connection = mysql.createConnection(creds)
 app.use(express.static(path.join(__dirname, 'build')));
 
 //app passport setup
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true
+app.use(cookieSession({
+  name: "session",
+  keys: [process.env.SESSION_SECRET],
+  maxAge: 30 * 24 * 3600 * 1000
 }));
+app.use(cookieParser())
+
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(cors())
