@@ -64,7 +64,7 @@ const App = (props) => {
           error: "Failed to authenticate user"
         });
       });
-  })
+  }, [])
 
   const toggleMenu = () => setMenuHidden(!menuHidden)
 
