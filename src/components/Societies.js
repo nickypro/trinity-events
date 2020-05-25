@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom';
-import {useLocaleObjectState} from '../functions/hooks';
+import {useLocaleState, useLocaleObjectState} from '../functions/hooks';
 
 import Society from './Society'
 import Loading from './LoadingBar'
@@ -10,16 +10,18 @@ const hour = 3600000
 
 function Societies(props) {
   const [societies, setSocieties] = useLocaleObjectState("SocietiesInfo", []);
+  const [lastUpdateTime, setLastUpdateTime] = useLocaleState("SocietiesInfoUpdate", "");
   
   useEffect(() => {
-    if (societies.lastUpdate || new Date() - new Date(societies.lastUpdate) < 1000*hour ) return
+    if (societies.length > 2 && new Date() - new Date(lastUpdateTime) < 30*24*hour ) return
     else fetchSocieties()
   }, [] );
 
   const fetchSocieties = async () => {
+    console.log("Fetching Societies from server")
     const data      = await fetch(window.location.origin + "/api/societies");
     const societies = await data.json();
-    societies.lastUpdate = new Date()
+    setLastUpdateTime(new Date().toLocaleDateString())
     setSocieties(societies)
   }
 
