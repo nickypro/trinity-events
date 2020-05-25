@@ -22,6 +22,18 @@ const routesDashboard = (app, db) => {
       res.redirect("/dashboard/profile")
     });
 
+
+  router.get("/login/success", ensureAuthenticated, (req, res) => {
+    if (req.user) {
+      res.json({
+        success: true,
+        message: "user has successfully authenticated",
+        user: req.user,
+        cookies: req.cookies
+      });
+    }
+  });
+
   app.route('/dashboard/profile')
     .get(ensureAuthenticated, (req, res) => {
       res.render("/views/pug/profile", {name: req.user.name})
