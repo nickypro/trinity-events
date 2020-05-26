@@ -1,7 +1,8 @@
 const passport = require('passport')
 
 const ensureAuthenticated = (req, res, next) => {
-  if ( req.isAuthenticated() ) {
+  console.log(" - ensure Authenticated : ", req.user.displayName)
+  if ( req.user ) {
     return next()
   }
   res.redirect('/')
@@ -34,6 +35,7 @@ const routesDashboard = (app, db) => {
 
   app.route('/dashboard/profile')
     .get(ensureAuthenticated, (req, res) => {
+      console.log("user authenticated!")
       res.sendFile(path.join(__dirname, 'build', 'index.html'));
     })
 }
