@@ -32,7 +32,15 @@ const auth = (app, db) => {try {
     // User.findOne won't fire until we have all our data back from Google
     //process.nextTick(function() {
     process.nextTick( () => {
-      db.query(`SELECT * FROM society_logins WHERE openid = "${profile.id}";`, (err, rows) => {
+      const email   = profile.emails[0].value
+      const openid  = profile.id
+      const name    = profile.displayName
+      const picture = profile.photos[0] ? profile.photos[0].value : null
+      
+      if (!email) 
+        return done({message: " - ERROR: no email specified"})
+
+      db.query(`SELECT * FROM society_logins WHERE email = "${email}";`, (err, rows) => {
         if (err) 
           return done(err)
 
@@ -48,15 +56,12 @@ const auth = (app, db) => {try {
 
         } else {
           //make sure their email is a society email
-          const email = profile.emails[0].value
-          if (!email) 
-            return done(null, user)
-
-          db.query(`SELECT email FROM societies WHERE email = "${email}"`, (err, user) => {
+          db.query(`SELECT id, email FROM societies WHERE email = "${email}"`, (err, rows) => {
             if (err)
               return done(err)
             
-            if (!user) {
+            log(rows)
+            if (!rows || rows.length === 0) {
               //if there is no such email, then return an error
               log(" - ERROR: Non-society email login attempt")
               return done({message : " - ERROR: Non-society email login attempt"})
@@ -64,15 +69,13 @@ const auth = (app, db) => {try {
             } else {
               // if it is a society email, then add them to the database
               console.log(profile)
-              const openid  = profile.id
-              const name    = profile.displayName
-              const picture = profile.photos[0] ? profile.photos[0].value : null
               
-              log(`adding user ${openid}, ${email}, ${name}, ${token}, ${picture}`)
+              const id = rows[0].id
+              log(`adding user ${id} ${openid}, ${email}, ${name}, ${token}, ${picture}`)
 
               db.query(`
-                INSERT INTO society_logins (   openid,      email,      name,      token,      picture) 
-                                    VALUES ("${openid}", "${email}", "${name}", "${token}", "${picture}");`
+                INSERT INTO society_logins (  id,     openid,      email,      name,      token,      picture) 
+                                    VALUES (${id}, "${openid}", "${email}", "${name}", "${token}", "${picture}");`
               , (err, result) => {
                 if (err)
                   return done(err)
