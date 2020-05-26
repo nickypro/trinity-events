@@ -45,13 +45,13 @@ const auth = (app, db) => {try {
           return done(err)
 
         if (rows.length > 1) {
-          log(" - ERROR: ID not specified")
-          return done({message: " - ERROR: ID not specified"})
+          log(" - ERROR: Email not unique")
+          return done(" - ERROR: Email not unique")
         }
 
         if (rows.length === 1) {
           //if found, then login
-          log( JSON.stringify(rows[0]) )
+          log(`Login successful : ${JSON.stringify(rows[0])}\n`)
           return done(null, rows[0])
 
         } else {
@@ -64,12 +64,10 @@ const auth = (app, db) => {try {
             if (!rows || rows.length === 0) {
               //if there is no such email, then return an error
               log(" - ERROR: Non-society email login attempt")
-              return done({message : " - ERROR: Non-society email login attempt"})
+              return done(" - ERROR: Non-society email login attempt")
 
             } else {
               // if it is a society email, then add them to the database
-              console.log(profile)
-              
               const id = rows[0].id
               log(`adding user ${id} ${openid}, ${email}, ${name}, ${token}, ${picture}`)
 
