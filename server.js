@@ -1,6 +1,6 @@
 const express = require('express')
-const cookieSession = require('cookie-session')
-const cookieParser = require("cookie-parser"); // parse cookie header
+const bodyParser = require('body-parser')
+const session = require('express-session')
 
 const path = require('path');
 const app = express();
@@ -37,14 +37,14 @@ const connection = mysql.createConnection(creds)
 
 //app setup
 app.use(express.static(path.join(__dirname, 'build')));
-
-//app passport setup
-app.use(cookieSession({
-  name: "session",
-  keys: [process.env.SESSION_SECRET],
-  maxAge: 30 * 24 * 3600 * 1000
-}));
-app.use(cookieParser())
+//track the user session
+app.use(bodyParser.urlencoded({ extended : true }) )
+app.use(bodyParser.json() )
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true
+}))
 
 app.use(passport.initialize())
 app.use(passport.session())
