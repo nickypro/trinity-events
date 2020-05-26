@@ -1,7 +1,7 @@
 const passport = require('passport')
 
 const ensureAuthenticated = (req, res, next) => {
-  console.log(" - ensure Authenticated : ", req.user.displayName)
+  console.log(" - ensure Authenticated : ", req.user ? req.user.displayName : null)
   if ( req.user ) {
     return next()
   }
