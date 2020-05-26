@@ -2,7 +2,7 @@ const passport = require('passport')
 
 const ensureAuthenticated = (req, res, next) => {
   console.log(" - ensure Authenticated : ", req.user ? req.user.displayName : null)
-  if ( req.user ) {
+  if ( req.isAuthenticated() ) {
     return next()
   }
   res.redirect('/')
