@@ -63,7 +63,6 @@ async function scrapeAndUpdate(db, societies) {
           (id, url, title, date, location) 
         VALUES ?
         ON DUPLICATE KEY UPDATE
-          url      = VALUES (url), 
           title    = VALUES (title), 
           date     = IF( date < NOW() - INTERVAL 90 DAY, date, VALUES (date) ),
           location = VALUES (location);
