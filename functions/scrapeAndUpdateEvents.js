@@ -33,7 +33,7 @@ async function scrapeAndUpdate(db, societies) {
       //ensure results were successful
       if (!events) continue
       console.log(` - ${events.length} events scraped for ${soc.name} \n`)
-      log(` - ${events.length} events scraped for ${soc.name} \n`)
+      log(`${new Date()} : ${events.length} events scraped for ${soc.name} \n`)
   
       //if so, make MySQL friendly array of values
       const insertToEvents = []
@@ -69,7 +69,7 @@ async function scrapeAndUpdate(db, societies) {
           `, [insertToEvents], (err, results, fields) => {
         if (err) {
           console.error(`error in events for ${soc.name}:  ${err.message}`);
-          log(`error in events for ${soc.name}:  ${err.message}`);
+          log(`error in events for ${soc.name}:  ${err.message} \n ${insertToEvents}`);
         }
       });
   
@@ -80,7 +80,7 @@ async function scrapeAndUpdate(db, societies) {
         VALUES ?;`, [insertToJoin], (err, results, fields) => {
         if (err) {
           console.log(`error in join for ${soc.name}: `, err.message)
-          log(`error in join for ${soc.name}: `, err.message)
+          log(`error in join for ${soc.name}:  \n ${insertToJoin}`, err.message)
         }
       })
   
