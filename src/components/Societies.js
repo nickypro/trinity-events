@@ -27,7 +27,7 @@ function Societies(props) {
 
   return(
     <div className="card">
-      <h1> Trinity Societies </h1>
+      <h1> Societies </h1>
       
       {/* Toggle between all societies and selected few societies */}
       <div>
