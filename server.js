@@ -16,9 +16,11 @@ const log = (d) => log_file.write(util.format(d) + '\n');
 const mysql = require('mysql')
 const creds = require('./mysql-credentials.json')
 
+/*
 const passport = require('passport')
 const cors     = require('./cors')
 const auth  = require('./auth')
+*/
 
 const routesApi = require('./routesApi') 
 const routesDashboard = require('./routesDashboard')
@@ -46,9 +48,11 @@ app.use(session({
   saveUninitialized: true
 }))
 
+/*
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(cors())
+*/
 
 //Logger
 const logger = (req, res, next) => {
@@ -78,8 +82,10 @@ connection.connect(async (err) => {
   routesApi(app, connection, societies, eventsFromToday, log)
 
   //add passport authentication and societies dashboard
+  /*
   auth(app, connection)
   routesDashboard(app, connection)
+*/
 
   //redirect /admin to the strapi server
   app.get('/admin', (req, res) => {
