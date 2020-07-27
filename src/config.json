@@ -1,12 +1,12 @@
 {
-  "shortTitle": "TrEvents",
-  "longTitle" : "Trinity Events",
+  "shortTitle": "SocEvents",
+  "longTitle" : "Society Events",
   "menuItems" : ["Societies", "Events", "About"],
   "wpUrl"     : "https://duphysoc.000webhostapp.com/",
   "strapiUrl" : "http://pesvut.ng.netsoc.ie:57692",
   "mongoUri"  : "",
   "GAnalytics": "UA-166891262-1",
-  "facebook"  : "https://www.facebook.com/trinityevents/",
+  "facebook"  : "",
   "instagram" : "",
-  "email"     : "hello@trinityevents.ie"
+  "email"     : "pochinkn@tcd.ie"
 }
