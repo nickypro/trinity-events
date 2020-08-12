@@ -76,13 +76,17 @@ function Events(props) {
   const handleDateChange = (date) => {
     //update user filters store
     setUserEventFilters({...userEventFilters, startDate: date})
+    submitSearch({startDate: date})
   }
 
   //
   const submitSearch = async (inputs = {}) => {
     //ensure picked date is valid
-    if ( !inputs.resetSearch && !timeFunc.isValidDate(userEventFilters.startDate) ) return
-    const startDate = userEventFilters.startDate
+    if ( !inputs.resetSearch 
+      && !timeFunc.isValidDate(userEventFilters.startDate)
+      && !timeFunc.isValidDate(inputs.startDate)
+    ) return
+    const startDate = inputs.startDate || userEventFilters.startDate
 
     //if different start date
     if ( startDate < prevSearchDate ) {
