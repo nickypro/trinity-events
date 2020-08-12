@@ -87,6 +87,7 @@ function Events(props) {
       && !timeFunc.isValidDate(inputs.startDate)
     ) return
     const startDate = inputs.startDate || userEventFilters.startDate
+    console.log(startDate)
 
     //if different start date
     if ( startDate < prevSearchDate ) {
