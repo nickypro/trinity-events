@@ -92,7 +92,7 @@ function Events(props) {
 
     //if different start date
     if ( startDate < prevSearchDate ) {
-      await fetchEvents()
+      await fetchEvents({startDate})
     }
 
     performFilter(inputs)
