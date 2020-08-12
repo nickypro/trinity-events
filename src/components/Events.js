@@ -24,10 +24,11 @@ function Events(props) {
   const [events, setEvents] = useState([]);
   const [userEventFilters, setUserEventFilters] = useState( defaultFilters )
   
-  const fetchEvents = async () => {
+  const fetchEvents = async (inputs = {}) => {
     console.log( "arr ", JSON.stringify([...selectedSocs]) )
     
-    const date =  dateFormat(userEventFilters.startDate, "yyyy-mm-dd");
+    const startDate = inputs.startDate || userEventFilters.startDate
+    const date =  dateFormat(startDate, "yyyy-mm-dd");
     prevSearchDate = new Date(date);
     
     let data
