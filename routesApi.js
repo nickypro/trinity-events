@@ -1,9 +1,6 @@
 
 const scrapeEvents = require('./functions/scrapeEvents')
-const scrapeAndUpdate = require('./functions/scrapeAndUpdateEvents')
 const sendEventData = require('./apis/sendEventData')
-
-const getEventsFromMySQL = require('./functions/getEventsFromMySQL')
 
 const todayStringYMD = require('./functions/todayStringYMD')
 
@@ -11,18 +8,7 @@ const fetch = require('node-fetch');
 const Bluebird = require('bluebird');
 fetch.Promise = Bluebird;
 
-const hour = 3600000
-
 const routesApi = (app, connection, societies, eventsFromToday, log = ()=>{}) => {
-
-  //run the scraping every hour
-  setInterval(async () => {
-    await scrapeAndUpdate(connection, societies) 
-    getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
-      eventsFromToday = eventsRecieved
-    })
-  }, 1*hour)
-
   //send event data
   app.get('/api/eventdata', async (req, res) => {
   try {

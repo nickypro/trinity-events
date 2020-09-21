@@ -28,6 +28,9 @@ const routesDashboard = require('./routesDashboard')
 const getSocieties = require('./functions/getSocieties')
 const getEventsFromMySQL = require('./functions/getEventsFromMySQL')
 
+const hour = 3600000
+const scrapeAndUpdate = require('./functions/scrapeAndUpdateEvents')
+
 //working memory data
 let societies = []
 let eventsFromToday = []
@@ -77,6 +80,15 @@ connection.connect(async (err) => {
 
   // get and save list of all societies
   societies = await getSocieties(connection, log)
+
+  //run the scraping every 12 hours
+  setInterval(async () => {
+    await scrapeAndUpdate(connection, societies) 
+    console.log(` - Scraped events for ${societies.length} societies`)
+    getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
+      eventsFromToday = eventsRecieved
+    })
+  }, 12*hour)
 
   //routes for /api calls
   routesApi(app, connection, societies, eventsFromToday, log)
