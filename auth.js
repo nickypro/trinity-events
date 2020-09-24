@@ -1,6 +1,6 @@
 const passport = require("passport")
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const configAuth = require('./configAuth.json')
+const configAuth = require('./config/configAuth.json')
 
 const fs = require('fs');
 const util = require('util');

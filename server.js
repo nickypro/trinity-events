@@ -14,7 +14,7 @@ const log_file = fs.createWriteStream(__dirname + `/debug.log`, {flags : 'w'});
 const log = (d) => log_file.write(util.format(d) + '\n');
 
 const mysql = require('mysql')
-const creds = require('./mysql-credentials.json')
+const creds = require('./config/mysql-credentials.json')
 
 /*
 const passport = require('passport')

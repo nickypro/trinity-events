@@ -4,7 +4,7 @@ const getSocietyInfo = require('./scrapeSocietyInfo')
 const updateSocietyInfo = require('./insertSocietyInfoToMySQL')
 
 const mysql = require('mysql');
-const credentials = require('../mysql-credentials.json')
+const credentials = require('../config/mysql-credentials.json')
 
 const connection = mysql.createConnection(credentials);
 

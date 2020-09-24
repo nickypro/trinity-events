@@ -1,7 +1,0 @@
-{
-  "googleAuth" : {
-    "clientID"        : "",
-    "clientSecret"    : "",
-    "callbackURL"     : ""
-  }
-}
