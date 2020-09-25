@@ -23,7 +23,7 @@ ii) `GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';`
 iii)`FLUSH PRIVILEGES;`
 
 3. Add the newuser & password to config/mysql-credentials.json.
-4. Add your "https://www.scraperapi.com/" api key(s) to scraperApiKeys.js
+4. Add your "https://www.scraperapi.com/" api key(s) to config/scraperApiKeys.js
 4. Run `npm install` from the "trinity-events" directry.
 5. Run `node ./initial-setup/setup.js` to set up the tables in MySQL. 
    This may take a while as the societies need to be scraped one at a time. 

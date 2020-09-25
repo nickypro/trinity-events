@@ -1,4 +1,4 @@
-const apiKeys = require('../scraperApiKeys.js')
+const apiKeys = require('../config/scraperApiKeys.js')
 const scrapeEvents = require('./scrapeEvents')
 
 const fs = require('fs')
