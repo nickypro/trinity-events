@@ -24,7 +24,7 @@ function Events(props = {showAll:false}) {
   const [events, setEvents] = useState([]);
   const [userEventFilters, setUserEventFilters] = useState( defaultFilters )
   
-  const showingAllEvent = selectedSocs.has("VIEW_ALL") || props.showAll  
+  const showingAllEvent = props.showAll  
 
   const fetchEvents = async (inputs = {}) => {
     console.log( "arr ", JSON.stringify([...selectedSocs]) )

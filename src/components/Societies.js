@@ -29,14 +29,13 @@ function Societies(props) {
     <div className="card">
       <h1> Societies </h1>
       
-      {/* Toggle between all societies and selected few societies */}
-      <div>
-        <ShowAllEventsSwitch />
-      </div>
-
       {/* Quick link to view events */}
-      <div><Link  className="button modernButton" to={"/events"}> 
-        View Events
+      <div><Link  className="button modernButton" to={"/my-events"}> 
+        View My Events
+      </Link></div>
+
+      <div><Link  className="button modernButton" to={"/all-events"}> 
+        View All Events
       </Link></div>
 
       {/* Show Loading bar or Error Message if no data */}
