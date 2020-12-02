@@ -28,7 +28,7 @@ function Events(props = {showAll: false, socs: []}) {
   let selectedSocs
 
   if (props.socs.length > 0) {
-    selectedSocs = props.socs  
+    selectedSocs = new Set(props.socs)  
   } else {
     selectedSocs = userSelectedSocs
   }
