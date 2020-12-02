@@ -8,6 +8,8 @@ import {Link} from 'react-router-dom';
 import timeFunc from '../../functions/timeFunctions'
 import {SelectedSocsContext} from '../../App'
 
+import fetchEvents from './fetchEvents'
+
 const dateFormat = require('dateformat');
 const today = timeFunc.startOfToday
 let prevSearchDate
@@ -38,36 +40,18 @@ function Events(props = {
     selectedSocs = userSelectedSocs
   }
 
-  const fetchEvents = async (inputs = {}) => {
-    console.log( "arr ", JSON.stringify([...selectedSocs]) )
-    
+  const fetchEventsAndUpdate = async (inputs = {}) => {
     const startDate = inputs.startDate || userEventFilters.startDate
     const date =  dateFormat(startDate, "yyyy-mm-dd");
-    prevSearchDate = new Date(date);
+    prevSearchDate = new Date(date)
+
+    const newEvents = await fetchEvents(date, selectedSocs, showAll=props.showAll)
+    setRawEventData(newEvents)
     
-    let data
-
-    //optional "VIEW_ALL" element within society IDs
-    if (showingAllEvent)
-      data = await fetch(window.location.origin + `/api/eventdata?date=${date}`);
-    else
-      data = await fetch(window.location.origin + `/api/eventdata?date=${date}&socs=${JSON.stringify([...selectedSocs])}`);
-      
-    let events    = await data.json()
-
-    if (!events.err & !events.error)
-      events = events.map(event => ({
-        ...event, 
-        date: new Date(event.date)
-      }));
-
-    console.log(events)
-    setRawEventData(events)
-    return 0;
   }
-  
+
   useEffect(() => {
-    fetchEvents()
+    fetchEventsAndUpdate()
   }, [] );
 
 
@@ -101,12 +85,13 @@ function Events(props = {
       && !timeFunc.isValidDate(userEventFilters.startDate)
       && !timeFunc.isValidDate(inputs.startDate)
     ) return
+
     const startDate = inputs.startDate || userEventFilters.startDate
     console.log(startDate)
 
     //if different start date
     if ( startDate < prevSearchDate ) {
-      await fetchEvents({startDate})
+      await fetchEventsAndUpdate({startDate})
     }
 
     performFilter(inputs)
