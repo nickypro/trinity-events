@@ -1,12 +1,12 @@
 import "./Event/Event.css"
 import React, {useState, useEffect, useContext} from 'react'
-import Loading from './LoadingBar'
-import Event from './Event'
-import DatePicker from './DatePicker'
+import Loading from '../LoadingBar'
+import Event from '../Event/Event'
+import DatePicker from '../DatePicker/DatePicker'
 
 import {Link} from 'react-router-dom';
-import timeFunc from '../functions/timeFunctions'
-import {SelectedSocsContext} from '../App'
+import timeFunc from '../../functions/timeFunctions'
+import {SelectedSocsContext} from '../../App'
 
 const dateFormat = require('dateformat');
 const today = timeFunc.startOfToday
