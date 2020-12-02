@@ -8,6 +8,7 @@ import Menu from './components/Menu/Menu';
 import BigLogo from './components/BigLogo'
 import StrapiPage from './components/StrapiPage'
 import Events from './components/Events'
+import AllEvents from './components/AllEvents'
 import SignUp from './components/SignUp'
 import Library from './components/Library';
 import Societies from './components/Societies'
@@ -96,11 +97,13 @@ const App = (props) => {
             style={isMenuShown()? {transform: "translateX(100%)"} : {}}>
         <Switch>
           <Route path="/events" component={Events} />
+          <Route path="/my-events" component={Events} />
+          <Route path="/all-events" component={AllEvents} />
           <Route path="/societies" component={Societies} />
           <Route path="/library" component={Library} />
           <Route path="/signup" component={SignUp} />
           <Route path="/:slug" component={StrapiPage} />
-          <Route path="/" component={BigLogo} />
+          <Route path="/" component={Events} />
         </Switch>    
       </div>
 

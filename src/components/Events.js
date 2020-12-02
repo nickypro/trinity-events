@@ -17,13 +17,15 @@ const defaultFilters = {
   "searchTerm": "",
 }
 
-function Events(props) {
+function Events(props = {showAll:false}) {
 
   const [selectedSocs, /*setSelectedSocs*/] = useContext(SelectedSocsContext)
   const [rawEventData, setRawEventData] = useState([]);
   const [events, setEvents] = useState([]);
   const [userEventFilters, setUserEventFilters] = useState( defaultFilters )
   
+  const showingAllEvent = selectedSocs.has("VIEW_ALL") || props.showAll  
+
   const fetchEvents = async (inputs = {}) => {
     console.log( "arr ", JSON.stringify([...selectedSocs]) )
     
@@ -34,10 +36,10 @@ function Events(props) {
     let data
 
     //optional "VIEW_ALL" element within society IDs
-    if (!selectedSocs.has("VIEW_ALL"))
-      data = await fetch(window.location.origin + `/api/eventdata?date=${date}&socs=${JSON.stringify([...selectedSocs])}`);
-    else 
+    if (showingAllEvent)
       data = await fetch(window.location.origin + `/api/eventdata?date=${date}`);
+    else
+      data = await fetch(window.location.origin + `/api/eventdata?date=${date}&socs=${JSON.stringify([...selectedSocs])}`);
       
     let events    = await data.json()
 
@@ -144,13 +146,25 @@ function Events(props) {
   return(
     <div className="card">
       <h1 style={{marginBottom: "1rem"}}> 
-        Events {events.searchTerm ? `- "${events.searchTerm}"` : ""}
+        {showingAllEvent ? "All " : "My "}
+        Events 
+        {events.searchTerm && `- "${events.searchTerm}"`}
       </h1>
 
       {/** Shortcut to Choose Societies */}
       <div><Link  className="button modernButton" to={"/societies"}> 
         Choose societies 
       </Link></div>      
+
+      {/* swap between "My Events" and "All Events" */}
+      {showingAllEvent
+      ? <div><Link  className="button modernButton" to={"/all-events"}> 
+          Show Events for my Chosen Societies 
+        </Link></div>     
+      : <div><Link  className="button modernButton" to={"/my-events"}> 
+          Show Events for All Societies 
+        </Link></div>     
+      }
 
       {/** Filter by search term */}
       <div className="userEventFilters form" style={{display: "block"}}>
@@ -183,7 +197,7 @@ function Events(props) {
 
       <h2 style={{textAlign: "left", marginLeft: "1rem", fontSize: "1.4rem"}}> 
         Showing for 
-        {(selectedSocs.length === 0 | selectedSocs.has("VIEW_ALL")) 
+        {(selectedSocs.length === 0 | showingAllEvent) 
           ? " ALL societies." 
           : " selected societies." }
       </h2>
