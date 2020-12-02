@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Checkbox from '@material-ui/core/Checkbox';
-import "./Society.css"
+import "./dist/Society.css"
 import {SelectedSocsContext} from '../../App'
 
 

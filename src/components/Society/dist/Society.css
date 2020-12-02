@@ -38,6 +38,9 @@
   color: #414;
   cursor: pointer;
 }
+.expansionTextButton:hover {
+  opacity: 0.6;
+}
 
 .societyAbout {
   margin-top: 0.5rem;
