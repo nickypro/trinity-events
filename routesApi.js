@@ -15,6 +15,13 @@ const hour = 3600000
 
 const routesApi = (app, connection, societies, eventsFromToday, log = ()=>{}) => {
 
+  (async () => {
+    await scrapeAndUpdate(connection, societies) 
+    getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
+      eventsFromToday = eventsRecieved
+    })
+  })()
+
   //run the scraping every hour
   setInterval(async () => {
     await scrapeAndUpdate(connection, societies) 
