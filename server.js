@@ -114,6 +114,9 @@ connection.connect(async (err) => {
   app.get('/:page', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });
+  app.get('/:page/:params', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  });
 
   // we will host the app on http as well
   app.listen(process.env.PORT || 80, () => {

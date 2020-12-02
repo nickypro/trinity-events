@@ -1,4 +1,3 @@
-const apiKeys = require('../config/scraperApiKeys.js')
 const scrapeEvents = require('./scrapeEvents')
 
 const fs = require('fs')
@@ -32,8 +31,7 @@ async function scrapeAndUpdate(db, societies) {
       console.log("scraping for soc ", soc.name)
       
       //scrape using a random api key
-      const scrapeOptions = { 
-        scraperApiKey: apiKeys[randomInt(apiKeys.length)], 
+      const scrapeOptions = {  
         facebookHandle: (soc.facebookHandle)
       }
       const events = await scrapeEvents(scrapeOptions)

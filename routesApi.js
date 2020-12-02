@@ -1,12 +1,14 @@
 
 const scrapeEvents = require('./functions/scrapeEvents')
 const sendEventData = require('./apis/sendEventData')
-
+const scrapeAndUpdate = require('./functions/scrapeAndUpdateEvents')
 const todayStringYMD = require('./functions/todayStringYMD')
 
 const fetch = require('node-fetch');
 const Bluebird = require('bluebird');
 fetch.Promise = Bluebird;
+
+const hour = 3600000
 
 const routesApi = (app, connection, societies, eventsFromToday, log = ()=>{}) => {
 
