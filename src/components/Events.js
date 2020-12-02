@@ -19,8 +19,8 @@ function Events(props = {
   }) {
 
   const [userSelectedSocs, /*setSelectedSocs*/] = useContext(SelectedSocsContext)
-  const [rawEventData, setRawEventData] = useState([]);
-  const [events, setEvents] = useState([]);
+  const [rawEventData, setRawEventData] = useState([]); // raw unfiltered events (to avoid api calls)
+  const [events, setEvents] = useState([]); // filtered events (to show to user)
   const [userEventFilters, setUserEventFilters] = useState( defaultFilters )
   
   const showingAllEvent = props.showAll  
