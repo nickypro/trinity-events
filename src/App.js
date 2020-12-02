@@ -8,7 +8,6 @@ import Menu from './components/Menu/Menu';
 import BigLogo from './components/BigLogo'
 import StrapiPage from './components/StrapiPage'
 import Events from './components/Events'
-import AllEvents from './components/AllEvents'
 import SignUp from './components/SignUp'
 import Library from './components/Library';
 import Societies from './components/Societies'
@@ -99,7 +98,7 @@ const App = (props) => {
           <Route path="/society/:id" render={(props) => <Events socs={[Number(props.match.params.id)]} />} />
           <Route path="/events" component={Events} />
           <Route path="/my-events" component={Events} />
-          <Route path="/all-events" component={AllEvents} />
+          <Route path="/all-events" render={props => <Events showAll={true} />} />
           <Route path="/societies" component={Societies} />
           <Route path="/library" component={Library} />
           <Route path="/signup" component={SignUp} />
