@@ -40,8 +40,11 @@ const todayStringYMD = require('./functions/todayStringYMD')
 
 const connection = mysql.createConnection(creds)
 
+
 //app setup
 app.use(express.static(path.join(__dirname, 'build')));
+
+/*
 //track the user session
 app.use(bodyParser.urlencoded({ extended : true }) )
 app.use(bodyParser.json() )

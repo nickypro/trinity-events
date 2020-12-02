@@ -9,6 +9,22 @@ const Bluebird = require('bluebird');
 fetch.Promise = Bluebird;
 
 const routesApi = (app, connection, societies, eventsFromToday, log = ()=>{}) => {
+
+  (async () => {
+    await scrapeAndUpdate(connection, societies) 
+    getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
+      eventsFromToday = eventsRecieved
+    })
+  })()
+
+  //run the scraping every hour
+  setInterval(async () => {
+    await scrapeAndUpdate(connection, societies) 
+    getEventsFromMySQL(connection, todayStringYMD(), (eventsRecieved) => {
+      eventsFromToday = eventsRecieved
+    })
+  }, 1*hour)
+
   //send event data
   app.get('/api/eventdata', async (req, res) => {
   try {
