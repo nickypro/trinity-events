@@ -29,6 +29,7 @@ key.pem
 db.sql
 config/configAuth.json
 configAuth.json
+.vscode
 
 npm-debug.log*
 yarn-debug.log*
