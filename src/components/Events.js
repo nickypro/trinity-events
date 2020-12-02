@@ -12,12 +12,11 @@ const dateFormat = require('dateformat');
 const today = timeFunc.startOfToday
 let prevSearchDate
 
-const defaultFilters = {
-  "startDate": today(),
-  "searchTerm": "",
-}
-
-function Events(props = {showAll: false, socs: []}) {
+function Events(props = {
+    showAll: false, 
+    socs: [], 
+    date: false,
+  }) {
 
   const [userSelectedSocs, /*setSelectedSocs*/] = useContext(SelectedSocsContext)
   const [rawEventData, setRawEventData] = useState([]);
@@ -33,6 +32,10 @@ function Events(props = {showAll: false, socs: []}) {
     selectedSocs = userSelectedSocs
   }
 
+  const defaultFilters = {
+    "startDate": new Date(props.date) || today(),
+    "searchTerm": "",
+  }
 
   const fetchEvents = async (inputs = {}) => {
     console.log( "arr ", JSON.stringify([...selectedSocs]) )
