@@ -1,5 +1,5 @@
 .societyMain {
-  display: grid; 
+  display: flex; 
   grid-template-columns: 4rem 1fr; 
   margin-top: 0.6rem;
 
@@ -29,6 +29,17 @@
     margin: 0px; 
     text-align: left;
     font-size: 1rem;
+  }
+
+  .expansionButtonText {
+    display: inline;
+    border: none;
+    margin: 0px;
+    font-weight: bold;
+    opacity: 0.7;
+    font-style: italic;
+    color: #414;
+    cursor: pointer;
   }
 
 }
