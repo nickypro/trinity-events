@@ -17,14 +17,22 @@ const defaultFilters = {
   "searchTerm": "",
 }
 
-function Events(props = {"showAll":false}) {
+function Events(props = {showAll: false, socs: []}) {
 
-  const [selectedSocs, /*setSelectedSocs*/] = useContext(SelectedSocsContext)
+  const [userSelectedSocs, /*setSelectedSocs*/] = useContext(SelectedSocsContext)
   const [rawEventData, setRawEventData] = useState([]);
   const [events, setEvents] = useState([]);
   const [userEventFilters, setUserEventFilters] = useState( defaultFilters )
   
   const showingAllEvent = props.showAll  
+  let selectedSocs
+
+  if (props.socs.length > 0) {
+    selectedSocs = props.socs  
+  } else {
+    selectedSocs = userSelectedSocs
+  }
+
 
   const fetchEvents = async (inputs = {}) => {
     console.log( "arr ", JSON.stringify([...selectedSocs]) )
