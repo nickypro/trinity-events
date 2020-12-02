@@ -1,4 +1,4 @@
-import "./Event/Event.css"
+import "../Event/Event.css"
 import React, {useState, useEffect, useContext} from 'react'
 import Loading from '../LoadingBar'
 import Event from '../Event/Event'
@@ -21,7 +21,7 @@ function Events(props = {
   }) {
 
   const defaultFilters = {
-    "startDate": new Date(props.date) || today(),
+    "startDate": (props.date && new Date(props.date)) || today(),
     "searchTerm": "",
     "showAll": props.showAll,
   }
@@ -34,7 +34,7 @@ function Events(props = {
   const showingAllEvent = props.showAll  
   let selectedSocs
 
-  if (props.socs.length > 0) {
+  if (props.socs && props.socs.length > 0) {
     selectedSocs = new Set(props.socs)  
   } else {
     selectedSocs = userSelectedSocs
@@ -45,7 +45,7 @@ function Events(props = {
     const date =  dateFormat(startDate, "yyyy-mm-dd");
     prevSearchDate = new Date(date)
 
-    const newEvents = await fetchEvents(date, selectedSocs, showAll=props.showAll)
+    const newEvents = await fetchEvents(date, selectedSocs, props.showAll)
     setRawEventData(newEvents)
     
   }
