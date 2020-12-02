@@ -18,6 +18,12 @@ function Events(props = {
     date: false,
   }) {
 
+  const defaultFilters = {
+    "startDate": new Date(props.date) || today(),
+    "searchTerm": "",
+    "showAll": props.showAll,
+  }
+
   const [userSelectedSocs, /*setSelectedSocs*/] = useContext(SelectedSocsContext)
   const [rawEventData, setRawEventData] = useState([]); // raw unfiltered events (to avoid api calls)
   const [events, setEvents] = useState([]); // filtered events (to show to user)
@@ -30,11 +36,6 @@ function Events(props = {
     selectedSocs = new Set(props.socs)  
   } else {
     selectedSocs = userSelectedSocs
-  }
-
-  const defaultFilters = {
-    "startDate": new Date(props.date) || today(),
-    "searchTerm": "",
   }
 
   const fetchEvents = async (inputs = {}) => {
