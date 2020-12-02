@@ -57,7 +57,7 @@ const Society = (props) => {
         </h2>
       </div>
 
-      <button className="expansionButton expansionButtonText"
+      <button className="expansionButton expansionTextButton"
                 onClick={() => changeExpansion(!expanded)}
                 > 
         {expanded ? "Show Less" : "Show More"}

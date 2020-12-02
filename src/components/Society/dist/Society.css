@@ -27,7 +27,8 @@
   text-align: left;
   font-size: 1rem;
 }
-.societyMain .expansionButtonText {
+
+.expansionTextButton {
   display: inline;
   border: none;
   margin: 0px;
