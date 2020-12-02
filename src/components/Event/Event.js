@@ -5,6 +5,7 @@ import './Event.css'
 const Event = (props) => (
   <a  className="event"
       href={props.event.url} 
+      target="_blank"
       data-date={props.event.date} 
       data-title={props.event.title}
       data-location={props.event.location}>
