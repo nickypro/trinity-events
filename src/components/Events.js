@@ -17,7 +17,7 @@ const defaultFilters = {
   "searchTerm": "",
 }
 
-function Events(props = {showAll:false}) {
+function Events(props = {"showAll":false}) {
 
   const [selectedSocs, /*setSelectedSocs*/] = useContext(SelectedSocsContext)
   const [rawEventData, setRawEventData] = useState([]);
