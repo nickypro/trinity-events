@@ -158,10 +158,10 @@ function Events(props = {"showAll":false}) {
 
       {/* swap between "My Events" and "All Events" */}
       {showingAllEvent
-      ? <div><Link  className="button modernButton" to={"/all-events"}> 
+      ? <div><Link  className="button modernButton" to={"/my-events"}> 
           Show Events for my Chosen Societies 
         </Link></div>     
-      : <div><Link  className="button modernButton" to={"/my-events"}> 
+      : <div><Link  className="button modernButton" to={"/all-events"}> 
           Show Events for All Societies 
         </Link></div>     
       }
