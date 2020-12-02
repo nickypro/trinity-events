@@ -10,26 +10,36 @@ const hour = 3600000
 const delay = 24*hour
 const randomInt = (max) => Math.floor(Math.random()*max)
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function scrapeAndUpdate(db, societies) {
     console.log(` - scraping events for ${societies.length} societies`)
     log(` - scraping events for ${societies.length} societies`)
   
     for (i in societies) {
       const soc = societies[i]
-      
+
       // do not scrape if there is no facebook to scrape, or if scraped recently
       if (!soc.facebookHandle) continue
       if ( Number(new Date()) - Number(new Date(soc.lastScraped)) < delay ) continue
       console.log(` - scraping events for ${soc.name}`)
       log(` - scraping events for ${soc.name}`)
   
+      console.log("awaiting cooldown") 
+      await sleep(5000);
+      console.log("scraping for soc ", soc.name)
+      
       //scrape using a random api key
       const scrapeOptions = { 
         scraperApiKey: apiKeys[randomInt(apiKeys.length)], 
         facebookHandle: (soc.facebookHandle)
       }
       const events = await scrapeEvents(scrapeOptions)
-  
+
+	console.log(events)
+
       //ensure results were successful
       if (!events) continue
       console.log(` - ${events.length} events scraped for ${soc.name} \n`)

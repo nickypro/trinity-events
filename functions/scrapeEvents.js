@@ -15,15 +15,20 @@ function eventScraper({scraperApiKey, facebookHandle}, response=()=>{}) {
   
   console.log("----- scraping events -----")
   const options = {
-    url: `http://api.scraperapi.com?api_key=${scraperApiKey}&url=https://m.facebook.com/pg/${facebookHandle}/events%3flang%3den"`,
-    json: false
+    url: `https://m.facebook.com/pg/${facebookHandle}/events`,
+    json: false,
+    headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0'
+    },  
   }
   
   return rp(options)
   .then(data => {
     //console.log(data);
     var $ = cheerio.load(data);
-    
+    console.log(options.url)
+    console.log($("title")[0].children[0].data)
+
     //Class for old events in old format = $('td div.bf')
     //Class for new events in old format = $('td div.bp')
     const eventsOld = $('td div.bp')
