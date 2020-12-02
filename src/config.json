@@ -1,7 +1,7 @@
 {
   "shortTitle": "SocEvents",
   "longTitle" : "Society Events",
-  "menuItems" : ["Societies", "Events", "About"],
+  "menuItems" : ["Societies", "My Events", "All Events", "About"],
   "wpUrl"     : "https://duphysoc.000webhostapp.com/",
   "strapiUrl" : "http://pesvut.ng.netsoc.ie:57692",
   "mongoUri"  : "",
