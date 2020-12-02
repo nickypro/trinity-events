@@ -154,7 +154,7 @@ function Events(props = {showAll: false, socs: []}) {
   return(
     <div className="card">
       <h1 style={{marginBottom: "1rem"}}> 
-        {showingAllEvent ? "All " : "My "}
+        {showingAllEvent ? "All " : (selectedSocs.length > 1) ? "My " : ""}
         Events 
         {events.searchTerm && `- "${events.searchTerm}"`}
       </h1>
