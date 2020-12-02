@@ -96,6 +96,7 @@ const App = (props) => {
       <div  className="pageFocus" 
             style={isMenuShown()? {transform: "translateX(100%)"} : {}}>
         <Switch>
+          <Route path="/society/:id" render={(props) => <Event socs={[props.id]} />} />
           <Route path="/events" component={Events} />
           <Route path="/my-events" component={Events} />
           <Route path="/all-events" component={AllEvents} />
