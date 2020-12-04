@@ -55,7 +55,7 @@ function Events(props = {
     fetchEventsAndUpdate()
   }, [props] );
 
-  const filterEventsAndUpdate = (inputs) => {
+  const filterEventsAndUpdate = (inputs = {}) => {
     //ensure picked date is valid
     if ( !inputs.resetSearch && !timeFunc.isValidDate(userEventFilters.startDate) ) return
     const startDate = inputs.startDate || userEventFilters.startDate
