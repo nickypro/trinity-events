@@ -53,7 +53,7 @@ function Events(props = {
 
   useEffect(() => {
     fetchEventsAndUpdate()
-  }, [] );
+  }, [props] );
 
   const filterEventsAndUpdate = (inputs) => {
     //ensure picked date is valid
