@@ -94,7 +94,12 @@ const Society = (props) => {
           <FontAwesomeIcon className="mediaLink" icon={["fab","snapchat"]}/>
         </a> : ""}
 
-        <Link to={`/society/${props.society.id}`}> EVENTS </Link>
+        <Link to={`/society/${props.society.id}`}
+          className="mediaLink"
+          style="positon: relative; bottom: 0.5rem;"
+          > 
+          EVENTS 
+        </Link>
 
       </p>
       <p className="societyAbout">
