@@ -9,6 +9,7 @@ import timeFunc from '../../functions/timeFunctions'
 import {SelectedSocsContext} from '../../App'
 
 import fetchEvents from './fetchEvents'
+import performFilter from './performFilter'
 
 const dateFormat = require('dateformat');
 const today = timeFunc.startOfToday
@@ -54,6 +55,16 @@ function Events(props = {
     fetchEventsAndUpdate()
   }, [] );
 
+  const filterEventsAndUpdate = (inputs) => {
+    //ensure picked date is valid
+    if ( !inputs.resetSearch && !timeFunc.isValidDate(userEventFilters.startDate) ) return
+    const startDate = inputs.startDate || userEventFilters.startDate
+    prevSearchDate = startDate;
+
+    newEvents = performFilter(startDate, inputs.searchTerm, inputs.resetSearch)
+    setEvents(newEvents)
+  }
+
 
   const handleFilterChange = (e) => {
     switch(e.target.name){
@@ -63,7 +74,7 @@ function Events(props = {
       
       case "clearSearch":
         setUserEventFilters( defaultFilters )
-        performFilter({resetSearch: true})
+        filterEventsAndUpdate({resetSearch: true})
         break;
 
       default:
@@ -94,50 +105,11 @@ function Events(props = {
       await fetchEventsAndUpdate({startDate})
     }
 
-    performFilter(inputs)
-  }
-
-  //FILTER BY USER SETTINGS
-  const performFilter = (inputs = {resetSearch: false}) => {
-    //ensure picked date is valid
-    if ( !inputs.resetSearch && !timeFunc.isValidDate(userEventFilters.startDate) ) return
-    const startDate = userEventFilters.startDate
-    prevSearchDate = startDate;
-
-    //test search speed
-    var t0 = performance.now() 
-
-    //filter by date, which may have just been reset
-    let date = (inputs.resetSearch) ? today() : startDate
-    let events = rawEventData.filter(event => (date < event.date))
-
-    //filter by what is in the search bar, unless we have just reset search bar
-    if (userEventFilters.searchTerm && !inputs.resetSearch){
-
-      const searchTerm = userEventFilters.searchTerm.toLowerCase()
-      
-      //we check the title, location and the society names
-      events = events.filter(event => {        
-        return (
-             !!event.title.toLowerCase().match(searchTerm)
-          || !!event.location.toLowerCase().match(searchTerm)
-          || !!event.societyNames.toString().toLowerCase().match(searchTerm)
-        ) 
-      }) 
-      events.searchTerm = searchTerm
-    }
-
-    //conclude speed test
-    var t1 = performance.now()
-    console.log("Filtering took " + (t1 - t0) + " milliseconds.")
-
-    //return events to state
-    console.log(`after filter: ${events.length} events`)
-    setEvents(events)
+    filterEventsAndUpdate(inputs)
   }
 
   useEffect(() =>{
-    performFilter()
+    filterEventsAndUpdate()
   }, [rawEventData])
 
   return(
