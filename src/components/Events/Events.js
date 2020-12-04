@@ -60,7 +60,7 @@ function Events(props = {
     const startDate = inputs.startDate || userEventFilters.startDate
     prevSearchDate = startDate;
 
-    newEvents = performFilter(rawEventData, startDate, inputs.searchTerm, inputs.resetSearch)
+    const newEvents = performFilter(rawEventData, startDate, inputs.searchTerm, inputs.resetSearch)
     setEvents(newEvents)
   }
 
