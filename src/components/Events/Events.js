@@ -9,6 +9,7 @@ import timeFunc from '../../functions/timeFunctions'
 import {SelectedSocsContext} from '../../App'
 
 import fetchEvents from './fetchEvents'
+import performFilter from './performFilter'
 
 const dateFormat = require('dateformat');
 const today = timeFunc.startOfToday
