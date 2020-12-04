@@ -96,7 +96,7 @@ const Society = (props) => {
 
         <Link to={`/society/${props.society.id}`}
           className="mediaLink"
-          style="positon: relative; bottom: 0.5rem;"
+          style={{positon: "relative", bottom: "0.5rem"}}
           > 
           EVENTS 
         </Link>
