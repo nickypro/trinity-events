@@ -61,7 +61,7 @@ function Events(props = {
     const startDate = inputs.startDate || userEventFilters.startDate
     prevSearchDate = startDate;
 
-    newEvents = performFilter(startDate, inputs.searchTerm, inputs.resetSearch)
+    newEvents = performFilter(raeEventData, startDate, inputs.searchTerm, inputs.resetSearch)
     setEvents(newEvents)
   }
 
