@@ -2,13 +2,13 @@ import timeFunc from '../../functions/timeFunctions'
 const today = timeFunc.startOfToday
 
 //FILTER BY USER SETTINGS
-const performFilter = (startDate, inputSearchTerm, resetSearch=false) => {
+const performFilter = (rawEventData, startDate, inputSearchTerm, resetSearch=false) => {
     
     //test search speed
     var t0 = performance.now() 
 
     //filter by date, which may have just been reset
-    let date = (inputs.resetSearch) ? today() : startDate
+    let date = (resetSearch) ? today() : startDate
     let events = rawEventData.filter(event => (date < event.date))
 
     //filter by what is in the search bar, unless we have just reset search bar
