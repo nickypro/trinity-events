@@ -93,6 +93,8 @@ const Society = (props) => {
           <FontAwesomeIcon className="mediaLink" icon={["fab","snapchat"]}/>
         </a> : ""}
 
+        <Link to={`/society/${props.society.id}`}> EVENTS </Link>
+
       </p>
       <p className="societyAbout">
         {props.society.about}
