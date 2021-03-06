@@ -14,7 +14,7 @@ var getEventsFromMySQL = function getEventsFromMySQL(db, startDate) {
   };
   //get events from database 
   var getAll = options.selectedSocieties.length === 0;
-  db.query("\n  SELECT\n    e.*,\n    CAST(concat('[', group_concat(json_quote(s.name) ORDER BY s.name SEPARATOR ','), ']') as json) AS societyNames,\n    CAST(concat('[', group_concat(s.id ORDER BY s.id SEPARATOR ','), ']') as json) AS societyIds\n  FROM\n    events e\n    INNER JOIN society_event se\n      ON se.event_id = e.id\n    INNER JOIN societies s\n      ON s.id = se.society_id\n  WHERE\n    ".concat(getAll ? "" : "s.id in (?) AND", "\n    e.date > '").concat(startDate, " 00:00:00'\n  GROUP BY\n    e.id\n  "), getAll ? [] : options.selectedSocieties, function (err, results, fields) {
+  db.query("\n  SELECT\n    e.*,\n    CAST(concat('[', group_concat(json_quote(s.name) ORDER BY s.name SEPARATOR ','), ']') as json) AS societyNames,\n    CAST(concat('[', group_concat(s.id ORDER BY s.id SEPARATOR ','), ']') as json) AS societyIds\n  FROM\n    events e\n    INNER JOIN society_event se\n      ON se.event_id = e.id\n    INNER JOIN societies s\n      ON s.id = se.society_id\n  WHERE\n    ".concat(getAll ? "" : "s.id in (?) AND", "\n    e.date ").concat(options.before ? '<=' : '>', " '").concat(startDate, " 00:00:00'\n  ").concat(options.before && "ORDER BY e.date DESC LIMIT ".concat(options.before), "\n\n  GROUP BY\n    e.id\n  "), getAll ? [] : options.selectedSocieties, function (err, results, fields) {
     if (err) return console.log(" - Error getting events from MySQL ", err.message);
     console.log(" - Got events for ".concat(options.selectedSocieties.length === 0 ? "all societeies" : options.selectedSocieties, "."));
     var events = results.map(function (event) {

@@ -14,7 +14,9 @@ const getEventsFromMySQL = (db, startDate, callback = () => {},  options = {sele
       ON s.id = se.society_id
   WHERE
     ${getAll?"":"s.id in (?) AND"}
-    e.date > '${startDate} 00:00:00'
+    e.date ${options.before ? '<=' : '>'} '${startDate} 00:00:00'
+  ${options.before && `ORDER BY e.date DESC LIMIT ${options.before}`}
+
   GROUP BY
     e.id
   `, (getAll ? [] : options.selectedSocieties), 
