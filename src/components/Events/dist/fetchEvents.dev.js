@@ -22,42 +22,34 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var dateFormat = require('dateformat');
 
 var fetchEvents = function fetchEvents(startDate, selectedSocs) {
-  var showAll,
+  var options,
       data,
+      url,
       events,
       _args = arguments;
   return regeneratorRuntime.async(function fetchEvents$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          showAll = _args.length > 2 && _args[2] !== undefined ? _args[2] : false;
+          options = _args.length > 2 && _args[2] !== undefined ? _args[2] : {
+            showAll: false,
+            before: 0
+          };
           console.log("arr ", JSON.stringify(_toConsumableArray(selectedSocs)));
+          url = window.location.origin + "/api/eventdata?date=".concat(startDate); //optional "VIEW_ALL" element within society IDs
 
-          if (!showAll) {
-            _context.next = 8;
-            break;
-          }
+          if (options.showAll) url = url + "&socs=".concat(JSON.stringify(_toConsumableArray(selectedSocs))); //optional: search backwards in time for ${options.before} events
 
-          _context.next = 5;
-          return regeneratorRuntime.awrap(fetch(window.location.origin + "/api/eventdata?date=".concat(startDate)));
+          if (options.before) url = url + "&before=".concat(options.before);
+          _context.next = 7;
+          return regeneratorRuntime.awrap(fetch(url));
 
-        case 5:
+        case 7:
           data = _context.sent;
-          _context.next = 11;
-          break;
-
-        case 8:
           _context.next = 10;
-          return regeneratorRuntime.awrap(fetch(window.location.origin + "/api/eventdata?date=".concat(startDate, "&socs=").concat(JSON.stringify(_toConsumableArray(selectedSocs)))));
-
-        case 10:
-          data = _context.sent;
-
-        case 11:
-          _context.next = 13;
           return regeneratorRuntime.awrap(data.json());
 
-        case 13:
+        case 10:
           events = _context.sent;
           if (!events.err & !events.error) events = events.map(function (event) {
             return _objectSpread({}, event, {
@@ -67,7 +59,7 @@ var fetchEvents = function fetchEvents(startDate, selectedSocs) {
           console.log(events);
           return _context.abrupt("return", events);
 
-        case 17:
+        case 14:
         case "end":
           return _context.stop();
       }
