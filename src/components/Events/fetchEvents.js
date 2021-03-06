@@ -8,7 +8,7 @@ const fetchEvents = async (startDate, selectedSocs, options={showAll: false, bef
   let url = window.location.origin + `/api/eventdata?date=${startDate}`
   
   //optional "VIEW_ALL" element within society IDs
-  if (options.showAll)
+  if (!options.showAll)
     url = url + `&socs=${JSON.stringify([...selectedSocs])}`
   
   //optional: search backwards in time for ${options.before} events
