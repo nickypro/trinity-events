@@ -46,7 +46,7 @@ function Events(props = {
     const date =  dateFormat(startDate, "yyyy-mm-dd");
     prevSearchDate = new Date(date)
 
-    const newEvents = await fetchEvents(date, selectedSocs, props.showAll)
+    const newEvents = await fetchEvents(date, selectedSocs, {showAll: props.showAll})
     setRawEventData(newEvents)
     
   }
