@@ -18,7 +18,11 @@ const sendEventData = async (req, res, connection, eventsFromToday, todayStringY
     selected = []
   }
 
-  if (startDate === todayStringYMD()) {
+  let before = 0
+  if (req.query.before && !isNaN(Number(req.query.before)))
+    before = Number(req.query.before)
+
+  if (startDate === todayStringYMD() && !res.before) {
     if (selected.length == 0) {
       console.log(` - sending ${eventsFromToday.length} default events starting from today`)
       log(` - sending ${eventsFromToday.length} default events starting from today`)
@@ -35,7 +39,7 @@ const sendEventData = async (req, res, connection, eventsFromToday, todayStringY
     log(` - performing manual database search for ${startDate}`)
     getEventsFromMySQL(connection, startDate, (eventsRecieved) => {
       res.json(eventsRecieved)
-    }, {selectedSocieties: selected})
+    }, {selectedSocieties: selected, before: before})
   }
 }
 

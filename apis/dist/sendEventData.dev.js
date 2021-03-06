@@ -25,6 +25,7 @@ var sendEventData = function sendEventData(req, res, connection, eventsFromToday
   var log,
       startDate,
       selected,
+      before,
       _args = arguments;
   return regeneratorRuntime.async(function sendEventData$(_context) {
     while (1) {
@@ -52,7 +53,10 @@ var sendEventData = function sendEventData(req, res, connection, eventsFromToday
             selected = [];
           }
 
-          if (startDate === todayStringYMD()) {
+          before = 0;
+          if (req.query.before && !isNaN(Number(req.query.before))) before = Number(req.query.before);
+
+          if (startDate === todayStringYMD() && !res.before) {
             if (selected.length == 0) {
               console.log(" - sending ".concat(eventsFromToday.length, " default events starting from today"));
               log(" - sending ".concat(eventsFromToday.length, " default events starting from today"));
@@ -71,11 +75,12 @@ var sendEventData = function sendEventData(req, res, connection, eventsFromToday
             getEventsFromMySQL(connection, startDate, function (eventsRecieved) {
               res.json(eventsRecieved);
             }, {
-              selectedSocieties: selected
+              selectedSocieties: selected,
+              before: before
             });
           }
 
-        case 9:
+        case 11:
         case "end":
           return _context.stop();
       }
