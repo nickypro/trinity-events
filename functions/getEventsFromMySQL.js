@@ -1,6 +1,6 @@
-const getEventsFromMySQL = (db, startDate, callback = () => {},  selectedSocieties = []) => {
+const getEventsFromMySQL = (db, startDate, callback = () => {},  options = {selectedSocieties:[], before:0}) => {
   //get events from database 
-  const getAll = (selectedSocieties.length === 0)
+  const getAll = (options.selectedSocieties.length === 0)
   db.query(`
   SELECT
     e.*,
@@ -17,11 +17,11 @@ const getEventsFromMySQL = (db, startDate, callback = () => {},  selectedSocieti
     e.date > '${startDate} 00:00:00'
   GROUP BY
     e.id
-  `, (getAll ? [] : selectedSocieties), 
+  `, (getAll ? [] : options.selectedSocieties), 
     (err, results, fields) => {
       if (err) return console.log(" - Error getting events from MySQL ", err.message);
       
-      console.log(` - Got events for ${selectedSocieties.length === 0 ? "all societeies" : selectedSocieties}.`)
+      console.log(` - Got events for ${options.selectedSocieties.length === 0 ? "all societeies" : options.selectedSocieties}.`)
       
       const events = results
         .map((event) => ({...event, societyNames: JSON.parse(event.societyNames), societyIds: JSON.parse(event.societyIds) }))

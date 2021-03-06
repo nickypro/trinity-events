@@ -35,7 +35,7 @@ const sendEventData = async (req, res, connection, eventsFromToday, todayStringY
     log(` - performing manual database search for ${startDate}`)
     getEventsFromMySQL(connection, startDate, (eventsRecieved) => {
       res.json(eventsRecieved)
-    }, selected)
+    }, {selectedSocieties: selected})
   }
 }
 
