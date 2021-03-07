@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import toKebabCase from '../../functions/toKebabCase'
-import "./Menu.css"
+import "./Menu.scss"
 
 import SocialMediaLinks from '../SocialMediaLinks'
 

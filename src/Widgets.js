@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import EventsWidget from './components/EventsWidget';
-import './css/App.css'
+import './css/App.scss'
 
 const Widgets = (props) => {
   return (

@@ -1,4 +1,4 @@
-import "../Event/Event.css"
+import "../Event/Event.scss"
 import React, {useState, useEffect, useContext} from 'react'
 import Loading from '../LoadingBar'
 import Event from '../Event/Event'

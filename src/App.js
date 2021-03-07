@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ReactGA from 'react-ga';
-import './css/App.css';
+import './css/App.scss';
 import {useLocaleSetsState} from './functions/hooks'
 
 import Menu from './components/Menu/Menu';

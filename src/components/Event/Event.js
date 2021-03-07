@@ -1,6 +1,6 @@
 import React from 'react'
 import timeFunc from '../../functions/timeFunctions'
-import './Event.css'
+import './Event.scss'
 
 const Event = (props) => (
   <a  className="event"
