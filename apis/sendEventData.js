@@ -22,7 +22,7 @@ const sendEventData = async (req, res, connection, eventsFromToday, todayStringY
   if (req.query.before && !isNaN(Number(req.query.before)))
     before = Number(req.query.before)
 
-  if (startDate === todayStringYMD() && !res.before) {
+  if (startDate === todayStringYMD() && !before) {
     if (selected.length == 0) {
       console.log(` - sending ${eventsFromToday.length} default events starting from today`)
       log(` - sending ${eventsFromToday.length} default events starting from today`)
