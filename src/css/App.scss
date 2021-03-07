@@ -293,6 +293,7 @@ a {
 
 .widget {
   width: 100vw;
+  overflow-x: hidden;
   .widget-header {
     height: 2rem;
     margin: 0px;
