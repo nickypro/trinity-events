@@ -3,7 +3,7 @@ import timeFunc from '../../functions/timeFunctions'
 import './Event.scss'
 
 const Event = (props) => (
-  <a  className="event"
+  <a  className={`event ${props.className}`} 
       href={props.event.url} 
       target="_blank"
       data-date={props.event.date} 
