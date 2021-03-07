@@ -3,6 +3,7 @@ const scrapeEvents = require('./functions/scrapeEvents')
 const sendEventData = require('./apis/sendEventData')
 const scrapeAndUpdate = require('./functions/scrapeAndUpdateEvents')
 const todayStringYMD = require('./functions/todayStringYMD')
+const getEventsFromMySQL = require('./functions/getEventsFromMySQL')
 
 const fetch = require('node-fetch');
 const Bluebird = require('bluebird');
