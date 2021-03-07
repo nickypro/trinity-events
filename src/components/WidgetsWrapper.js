@@ -3,7 +3,7 @@ import React from 'react'
 const WidgetsWrapper = ({children, title}) => (
     <div className="widget-component">
         <div className="widget-header">
-          <a href="https://society.events">
+          <a href="https://society.events" target="_blank">
             <h2> {title || "Society.Events"} </h2>
           </a>
         </div>
