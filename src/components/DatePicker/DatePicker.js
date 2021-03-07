@@ -1,5 +1,5 @@
 import React from 'react'
-import "./DatePicker.css"
+import "./DatePicker.scss"
 import timeFunc from '../../functions/timeFunctions'
 
 import 'date-fns';
